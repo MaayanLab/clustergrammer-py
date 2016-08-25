@@ -76,9 +76,11 @@ class Network(object):
       print(requested_view)
 
   def swap_nan_for_zero(self):
+    from copy import deepcopy
     '''
     Expose this to user for their optional use
     '''
+    self.dat['mat_orig'] = deepcopy(self.dat['mat'])
     import numpy as np
     self.dat['mat'][np.isnan(self.dat['mat'])] = 0
 
