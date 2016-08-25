@@ -72,7 +72,6 @@ def viz_json(net, dendro=True):
         inst_dict['value_orig'] = net.dat['mat_orig'][i, j]
 
         if np.isnan(inst_dict['value_orig']):
-          print('found NaN')
           inst_dict['value_orig'] = 'NaN'
 
 
