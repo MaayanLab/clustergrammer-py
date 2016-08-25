@@ -59,7 +59,6 @@ def viz_json(net, dendro=True):
   for i in range(len(net.dat['nodes']['row'])):
     for j in range(len(net.dat['nodes']['col'])):
 
-      if abs(net.dat['mat'][i, j]) > 0:
       inst_dict = {}
       inst_dict['source'] = i
       inst_dict['target'] = j
@@ -73,6 +72,7 @@ def viz_json(net, dendro=True):
         inst_dict['value_orig'] = net.dat['mat_orig'][i, j]
 
         if np.isnan(inst_dict['value_orig']):
+          print('found NaN')
           inst_dict['value_orig'] = 'NaN'
 
 
