@@ -1,22 +1,21 @@
-README: clustergrammer-py
-
 # Clustergrammer Python Module
-The python module [clutergrammer.py](clustergrammer), takes a tab-separated matrix file as input, calculates clustering, and generates the visualization json for clustergrammer.js. See a simple example workflows below:
+The python module [clutergrammer.py](clustergrammer), takes a matrix as input (e.g. from a tab-separated matrix file), calculates clustering, and generates the visualization json for clustergrammer.js. See an example workflows below:
 
 ## Example Workflow
 ```
 from clustergrammer import Network
 net = Network()
 
+# load matrix file
 net.load_file('txt/rc_two_cats.txt')
 
+# calculate clustering
 net.make_clust(dist_type='cos',views=['N_row_sum', 'N_row_var'])
 
-net.write_json_to_file('viz', 'json/mult_view.json', 'no-indent')
+# write visualization json to file
+net.write_json_to_file('viz', 'json/mult_view.json')
 ```
-The above workflow instaitiates an instance of the ```Network``` class as ```net```, loads a matrix tsv file, calculates clustering (with distance set to cosine and optional view requested), and writes the visualization json to a file.
-
-The python script [make_clustergrammer.py](make_clustergrammer.py) generates the visualization jsons for the examples pages on this repo. You can modify the script to make a visualization from your own file and find out more about the API below.
+[make_clustergrammer.py](make_clustergrammer.py) is used to generate the visualization jsons (in [viz](viz)) for the examples pages on this repo. You can modify the script to make a visualization from your own file and find out more about the API below.
 
 ## Jupyter Notebook Example Workflow
 The python module can also produce visualizations for Jupyter/Ipython Python notebooks. See [Jupyter_Notebook_Example.ipynb](Jupyter_Notebook_Example.ipynb) for and example notebook or the example workflow below:
