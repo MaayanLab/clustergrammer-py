@@ -15,7 +15,7 @@ net.make_clust(dist_type='cos',views=['N_row_sum', 'N_row_var'])
 # write visualization json to file
 net.write_json_to_file('viz', 'json/mult_view.json')
 ```
-[make_clustergrammer.py](make_clustergrammer.py) is used to generate the visualization jsons (in [viz](viz)) for the examples pages on this repo. You can modify the script to make a visualization from your own file and find out more about the API below.
+[make_clustergrammer.py](make_clustergrammer.py) is used to generate the visualization jsons (see [json](https://github.com/MaayanLab/clustergrammer/tree/master/json) directory of the clustergrammer repo) for the examples pages on the [clustergrammer](https://github.com/MaayanLab/clustergrammer) repo. You can modify the script to make a visualization from your own file and find out more about the API below.
 
 ## Jupyter Notebook Example Workflow
 The python module can also produce visualizations for Jupyter/Ipython Python notebooks. See [Jupyter_Notebook_Example.ipynb](Jupyter_Notebook_Example.ipynb) for and example notebook or the example workflow below:
