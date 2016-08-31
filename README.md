@@ -1,5 +1,5 @@
 # Clustergrammer Python Module
-The python module [clutergrammer.py](clustergrammer), takes a matrix as input (e.g. from a tab-separated matrix file), calculates clustering, and generates the visualization json for clustergrammer.js. See an example workflows below:
+The python module [clustergrammer.py](clustergrammer), takes a matrix as input (e.g. from a tab-separated matrix file), calculates clustering, and generates the visualization json for clustergrammer.js. See an example workflows below:
 
 ## Example Workflow
 ```
@@ -15,7 +15,7 @@ net.make_clust(dist_type='cos',views=['N_row_sum', 'N_row_var'])
 # write visualization json to file
 net.write_json_to_file('viz', 'json/mult_view.json')
 ```
-[make_clustergrammer.py](make_clustergrammer.py) is used to generate the visualization jsons (see [json](https://github.com/MaayanLab/clustergrammer/tree/master/json) directory of the clustergrammer repo) for the examples pages on the [clustergrammer](https://github.com/MaayanLab/clustergrammer) repo. You can modify the script to make a visualization from your own file and find out more about the API below.
+The script [make_clustergrammer.py](make_clustergrammer.py) is used to generate the visualization jsons (see [json](https://github.com/MaayanLab/clustergrammer/tree/master/json) directory of the clustergrammer repo) for the examples pages on the [clustergrammer](https://github.com/MaayanLab/clustergrammer) repo. To visualize your own data modify the [make_clustergrammer.py](make_clustergrammer.py) script on the [clustergrammer](https://github.com/MaayanLab/clustergrammer) repo.
 
 ## Jupyter Notebook Example Workflow
 The python module can also produce visualizations for Jupyter/Ipython Python notebooks. See [Jupyter_Notebook_Example.ipynb](Jupyter_Notebook_Example.ipynb) for and example notebook or the example workflow below:
