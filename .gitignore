@@ -60,6 +60,7 @@ sftp-config.json
 
 # python
 *.ipynb_checkpoints
+*.pyc
 
 # # eslint
 # .eslint*
