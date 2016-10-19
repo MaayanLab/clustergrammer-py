@@ -11,7 +11,13 @@ def N_rows(net, df, all_views, dist_type='cosine', rank_type='sum'):
 
     tmp_df = deepcopy(df)
 
-    if inst_keep < len(rows_sorted) or inst_keep == 'all':
+    # convert 'all' to -1 to clean up checking mechanism
+    if inst_keep == 'all':
+      check_keep_num = -1
+    else:
+      check_keep_num = inst_keep
+
+    if check_keep_num < len(rows_sorted):
 
       tmp_net = deepcopy(Network())
 
@@ -86,11 +92,11 @@ def pct_rows(net, df, all_views, dist_type, rank_type):
 
     try:
       try:
-        calc_clust.cluster_row_and_col(tmp_net, dist_type=dist_type, 
+        calc_clust.cluster_row_and_col(tmp_net, dist_type=dist_type,
                                        run_clustering=True)
 
       except:
-        calc_clust.cluster_row_and_col(tmp_net, dist_type=dist_type, 
+        calc_clust.cluster_row_and_col(tmp_net, dist_type=dist_type,
                                        run_clustering=False)
 
       inst_view = {}
@@ -105,4 +111,4 @@ def pct_rows(net, df, all_views, dist_type, rank_type):
     except:
       pass
 
-  return all_views  
+  return all_views
