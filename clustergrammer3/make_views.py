@@ -11,11 +11,11 @@ def N_rows(net, df, all_views, dist_type='cosine', rank_type='sum'):
 
     tmp_df = deepcopy(df)
 
+    check_keep_num = inst_keep
+
     # convert 'all' to -1 to clean up checking mechanism
-    if inst_keep == 'all':
+    if check_keep_num == 'all':
       check_keep_num = -1
-    else:
-      check_keep_num = inst_keep
 
     if check_keep_num < len(rows_sorted):
 
