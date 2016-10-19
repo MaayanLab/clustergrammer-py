@@ -28,8 +28,39 @@ net.write_json_to_file('viz', 'json/mult_view.json')
 ```
 [make_clustergrammer.py](make_clustergrammer.py) is used to generate the visualization jsons (see [json](https://github.com/MaayanLab/clustergrammer/tree/master/json) directory of the clustergrammer repo) for the examples pages on the [clustergrammer](https://github.com/MaayanLab/clustergrammer) repo. You can modify the script to make a visualization from your own file and find out more about the API below.
 
-## Jupyter Notebook Example Workflow
-The python module can also produce visualizations for Jupyter/Ipython Python notebooks. See [Jupyter_Notebook_Example.ipynb](Jupyter_Notebook_Example.ipynb) for and example notebook or the example workflow below:
+## Jupyter Notebook Examples
+
+### Clustergrammer-Widget Example
+Clustergrammer can be used as a notebook extension widget. To install the widget use
+
+```
+# python 2
+$ pip install clustergrammer_widget
+
+# python 3
+$ pip3 install clustergrammer_widget
+```
+
+Within the Jupyter/IPython notebook the widget can be run using the following commands
+
+```
+# import the widget
+from clustergrammer_widget import *
+from copy import deepcopy
+
+# load data into new network instance and cluster
+net = deepcopy(Network())
+net.load_file('rc_two_cats.txt')
+net.make_clust()
+
+# view the results as a widget
+clustergrammer_notebook(network = net.export_net_json())
+```
+
+The [clustergrammer_widget](https://github.com/MaayanLab/clustergrammer-widget) repo contains the source code for the widget.
+
+### IFrame Clustergrammer-web Results
+The python module can make an IFramed visualization in Jupyter/Ipython Python notebooks. See [Jupyter_Notebook_Example.ipynb](Jupyter_Notebook_Example.ipynb) for and example notebook or the example workflow below:
 
 ```
 # upload a file to the clustergrammer web app and visualize using an Iframe
