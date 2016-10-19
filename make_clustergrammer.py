@@ -6,7 +6,8 @@ or by getting the code from the repo:
 https://github.com/MaayanLab/clustergrammer-py
 '''
 
-from clustergrammer import Network
+# from clustergrammer import Network
+from clustergrammer3 import Network
 net = Network()
 
 # load matrix tsv file
