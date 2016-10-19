@@ -1,10 +1,17 @@
 def load_file(net, filename):
-  import io
+  import io, sys
   f = open(filename, 'r')
 
   file_string = f.read()
 
-  file_string = unicode(file_string)
+  if (sys.version_info > (3, 0)):
+    # python 3
+    ####################
+    file_string = str(file_string)
+  else:
+    # python 2
+    ####################
+    file_string = unicode(file_string)
 
   buff = io.StringIO(file_string)
   f.close()
