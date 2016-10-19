@@ -20,7 +20,7 @@ def main(net):
     # make distance matrix dataframe
     dm = dist_matrix_lattice(inst_nodes)
 
-    node_infos = net.dat['node_info'][inst_rc].keys()
+    node_infos = list(net.dat['node_info'][inst_rc].keys())
 
     all_cats = []
     for inst_info in node_infos:
@@ -58,7 +58,7 @@ def dist_matrix_lattice(names):
 
   lattice_size = len(names)
   mat = np.zeros([lattice_size, 1])
-  mat[:,0] = range(lattice_size)
+  mat[:,0] = list(range(lattice_size))
 
   inst_dm = pdist(mat, metric='euclidean')
 

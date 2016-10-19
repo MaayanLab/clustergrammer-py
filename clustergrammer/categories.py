@@ -41,7 +41,7 @@ def dict_cat(net):
   make a dictionary of node-category associations
   '''
   for inst_rc in ['row', 'col']:
-    inst_keys = net.dat['node_info'][inst_rc].keys()
+    inst_keys = list(net.dat['node_info'][inst_rc].keys())
     all_cats = [x for x in inst_keys if 'cat-' in x]
 
     for inst_name_cat in all_cats:
@@ -65,11 +65,11 @@ def calc_cat_clust_order(net, inst_rc):
   '''
   cluster category subset of data
   '''
-  from __init__ import Network
+  from .__init__ import Network
   from copy import deepcopy
-  import calc_clust, run_filter
+  from . import calc_clust, run_filter
 
-  inst_keys = net.dat['node_info'][inst_rc].keys()
+  inst_keys = list(net.dat['node_info'][inst_rc].keys())
   all_cats = [x for x in inst_keys if 'cat-' in x]
 
   if len(all_cats) > 0:
@@ -124,10 +124,10 @@ def calc_cat_clust_order(net, inst_rc):
             calc_clust.cluster_row_and_col(cat_net, 'cos')
             inst_cat_order = cat_net.dat['node_info'][inst_rc]['clust']
           else:
-            inst_cat_order = range(len(cat_net.dat['nodes'][inst_rc]))
+            inst_cat_order = list(range(len(cat_net.dat['nodes'][inst_rc])))
 
         except:
-          inst_cat_order = range(len(cat_net.dat['nodes'][inst_rc]))
+          inst_cat_order = list(range(len(cat_net.dat['nodes'][inst_rc])))
 
 
         prev_order_len = len(all_cat_orders)

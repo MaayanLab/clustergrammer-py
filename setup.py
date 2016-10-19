@@ -2,12 +2,12 @@ from distutils.core import setup
 setup(
   name = 'clustergrammer',
   packages = ['clustergrammer'], # this must be the same as the name above
-  version = '0.1.6',
+  version = '1.0.0',
   description = 'A python module for the Clustergrammer visualization project',
   author = 'Nicolas Fernandez',
   author_email = 'nickfloresfernandez@gmail.com',
   url = 'https://github.com/MaayanLab/clustergrammer-py',
-  download_url = 'https://github.com/MaayanLab/clustergrammer-py/tarball/0.1.6',
+  download_url = 'https://github.com/MaayanLab/clustergrammer-py/tarball/1.0.0',
   keywords = ['testing'],
   classifiers = [],
 )
