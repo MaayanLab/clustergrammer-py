@@ -6,10 +6,10 @@ The module can be used by downloading the source code here or by installing with
 
 ```
 # python 2
-pip install clustergrammer
+$ pip install clustergrammer
 
 # python 3
-pip3 install clustergrammer
+$ pip3 install clustergrammer
 ```
 
 ## Example Workflow
