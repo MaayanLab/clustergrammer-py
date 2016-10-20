@@ -79,13 +79,17 @@ def calc_cat_clust_order(net, inst_rc):
       tmp_name = 'dict_' + inst_name_cat.replace('-', '_')
       dict_cat = net.dat['node_info'][inst_rc][tmp_name]
 
-      all_cats = sorted(dict_cat.keys())
+      ordered_cats = sorted(dict_cat.keys())
+      # ordered_cats = dict_cat.keys()
+
+      # print('\n========== new all cats')
+      # print(ordered_cats)
 
       # this is the ordering of the columns based on their category, not
       # including their clustering ordering within category
       all_cat_orders = []
       tmp_names_list = []
-      for inst_cat in all_cats:
+      for inst_cat in ordered_cats:
 
         inst_nodes = dict_cat[inst_cat]
 
@@ -146,7 +150,9 @@ def calc_cat_clust_order(net, inst_rc):
 
         inst_node_name = net.dat['nodes'][inst_rc][i]
         inst_node_num = names_clust_list.index(inst_node_name)
+
         final_order.append(inst_node_num)
 
-      net.dat['node_info'][inst_rc][inst_name_cat.replace('-', '_') +
-                                     '_index'] = final_order
+      inst_index_cat = inst_name_cat.replace('-', '_') + '_index'
+
+      net.dat['node_info'][inst_rc][inst_index_cat] = final_order
