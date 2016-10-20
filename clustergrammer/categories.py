@@ -212,7 +212,10 @@ def remove_titles(cats):
   all_have_titles = True
 
   for inst_cat in cats:
-    if ': ' not in inst_cat:
+    if is_number(inst_cat) == False:
+      if ': ' not in inst_cat:
+        all_have_titles = False
+    else:
       all_have_titles = False
 
   if all_have_titles:
