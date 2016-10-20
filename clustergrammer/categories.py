@@ -79,11 +79,9 @@ def calc_cat_clust_order(net, inst_rc):
       tmp_name = 'dict_' + inst_name_cat.replace('-', '_')
       dict_cat = net.dat['node_info'][inst_rc][tmp_name]
 
-      ordered_cats = sorted(dict_cat.keys())
-      # ordered_cats = dict_cat.keys()
+      unordered_cats = deepcopy(dict_cat.keys())
 
-      # print('\n========== new all cats')
-      # print(ordered_cats)
+      ordered_cats = order_categories(unordered_cats)
 
       # this is the ordering of the columns based on their category, not
       # including their clustering ordering within category
@@ -156,3 +154,79 @@ def calc_cat_clust_order(net, inst_rc):
       inst_index_cat = inst_name_cat.replace('-', '_') + '_index'
 
       net.dat['node_info'][inst_rc][inst_index_cat] = final_order
+
+def order_categories(unordered_cats):
+  '''
+  If categories are strings, then simple ordering is fine.
+  If categories are values then I'll need to order based on their values.
+  The final ordering is given as the original categories (including titles) in a
+  ordered list.
+  '''
+
+  no_titles = remove_titles(unordered_cats)
+
+  all_are_numbers = check_all_numbers(no_titles)
+
+  if all_are_numbers:
+    ordered_cats = order_cats_based_on_values(unordered_cats, no_titles)
+  else:
+    ordered_cats = sorted(unordered_cats)
+
+  return ordered_cats
+
+
+def order_cats_based_on_values(unordered_cats, values_list):
+  import pandas as pd
+
+  try:
+    # convert values_list to values
+    values_list = [float(i) for i in values_list]
+
+    inst_series = pd.Series(data=values_list, index=unordered_cats)
+
+    inst_series.sort_values(inplace=True)
+
+    ordered_cats = inst_series.index.tolist()
+
+    # ordered_cats = unordered_cats
+  except:
+    # keep default ordering if error occurs
+    print('error sorting cats based on values ')
+    ordered_cats = unordered_cats
+
+  return ordered_cats
+
+def check_all_numbers(no_titles):
+  all_numbers = True
+  for tmp in no_titles:
+    if is_number(tmp) == False:
+      all_numbers = False
+
+  return all_numbers
+
+def remove_titles(cats):
+  from copy import deepcopy
+
+  # check if all have titles
+  ###########################
+  all_have_titles = True
+
+  for inst_cat in cats:
+    if ': ' not in inst_cat:
+      all_have_titles = False
+
+  if all_have_titles:
+    no_titles = deepcopy(cats)
+    no_titles = [i.split(': ')[1] for i in no_titles]
+
+  else:
+    no_titles = deepcopy(cats)
+
+  return no_titles
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
