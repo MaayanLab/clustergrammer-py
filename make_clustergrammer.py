@@ -6,6 +6,7 @@ or by getting the code from the repo:
 https://github.com/MaayanLab/clustergrammer-py
 '''
 
+# from clustergrammer import Network
 from clustergrammer import Network
 net = Network()
 

@@ -1,5 +1,16 @@
 # Clustergrammer Python Module
-The python module [clustergrammer.py](clustergrammer), takes a matrix as input (e.g. from a tab-separated matrix file), calculates clustering, and generates the visualization json for clustergrammer.js. See an example workflows below:
+The python module [clutergrammer.py](clustergrammer), takes a tab-separated matrix file as input (see format [here](#input-matrix-format)), calculates clustering, and generates the visualization json (see format [here](https://github.com/MaayanLab/clustergrammer-json)) for [clustergrammer.js](https://github.com/MaayanLab/clustergrammer). See an [example workflow](#example-workflow) below:
+
+## Installation
+The module can be used by downloading the source code here or by installing with [pip](https://pypi.python.org/pypi?:action=display&name=clustergrammer):
+
+```
+# python 2
+$ pip install clustergrammer
+
+# python 3
+$ pip3 install clustergrammer
+```
 
 ## Example Workflow
 ```
@@ -17,8 +28,39 @@ net.write_json_to_file('viz', 'json/mult_view.json')
 ```
 The script [make_clustergrammer.py](make_clustergrammer.py) is used to generate the visualization jsons (see [json](https://github.com/MaayanLab/clustergrammer/tree/master/json) directory of the clustergrammer repo) for the examples pages on the [clustergrammer](https://github.com/MaayanLab/clustergrammer) repo. To visualize your own data modify the [make_clustergrammer.py](make_clustergrammer.py) script on the [clustergrammer](https://github.com/MaayanLab/clustergrammer) repo.
 
-## Jupyter Notebook Example Workflow
-The python module can also produce visualizations for Jupyter/Ipython Python notebooks. See [Jupyter_Notebook_Example.ipynb](Jupyter_Notebook_Example.ipynb) for and example notebook or the example workflow below:
+## Jupyter Notebook Examples
+
+### Clustergrammer-Widget Example
+Clustergrammer can be used as a notebook extension widget. To install the widget use
+
+```
+# python 2
+$ pip install clustergrammer_widget
+
+# python 3
+$ pip3 install clustergrammer_widget
+```
+
+Within the Jupyter/IPython notebook the widget can be run using the following commands
+
+```
+# import the widget
+from clustergrammer_widget import *
+from copy import deepcopy
+
+# load data into new network instance and cluster
+net = deepcopy(Network())
+net.load_file('rc_two_cats.txt')
+net.make_clust()
+
+# view the results as a widget
+clustergrammer_notebook(network = net.export_net_json())
+```
+
+The [clustergrammer_widget](https://github.com/MaayanLab/clustergrammer-widget) repo contains the source code for the widget.
+
+### IFrame Clustergrammer-web Results
+The python module can make an IFramed visualization in Jupyter/Ipython Python notebooks. See [Jupyter_Notebook_Example.ipynb](Jupyter_Notebook_Example.ipynb) for and example notebook or the example workflow below:
 
 ```
 # upload a file to the clustergrammer web app and visualize using an Iframe

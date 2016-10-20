@@ -1,6 +1,6 @@
 def viz_json(net, dendro=True):
   ''' make the dictionary for the clustergram.js visualization '''
-  import calc_clust
+  from . import calc_clust
   import numpy as np
 
   all_dist = calc_clust.group_cutoffs()
