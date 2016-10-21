@@ -79,7 +79,7 @@ def calc_cat_clust_order(net, inst_rc):
       tmp_name = 'dict_' + inst_name_cat.replace('-', '_')
       dict_cat = net.dat['node_info'][inst_rc][tmp_name]
 
-      unordered_cats = deepcopy(dict_cat.keys())
+      unordered_cats = dict_cat.keys()
 
       ordered_cats = order_categories(unordered_cats)
 
@@ -219,11 +219,11 @@ def remove_titles(cats):
       all_have_titles = False
 
   if all_have_titles:
-    no_titles = deepcopy(cats)
+    no_titles = cats
     no_titles = [i.split(': ')[1] for i in no_titles]
 
   else:
-    no_titles = deepcopy(cats)
+    no_titles = cats
 
   return no_titles
 
