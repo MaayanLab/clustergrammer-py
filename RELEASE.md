@@ -5,7 +5,9 @@ http://peterdowns.com/posts/first-time-with-pypi.html
 Updating Instructions
 ----------------------------
 
-First, release a new version and push to github repo. Then update the setup.py file to reflect the new version.
+First, release a new version and push to github repo.
+
+Then update the setup.py file to reflect the new version.
 
 adding a tag
 -----------------
