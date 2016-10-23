@@ -121,7 +121,7 @@ def calc_cat_clust_order(net, inst_rc):
         cat_mat_shape = cat_net.dat['mat'].shape
 
         try:
-          if cat_mat_shape[0]>1 and cat_mat_shape[1] > 1:
+          if cat_mat_shape[0]>1 and cat_mat_shape[1] > 1 and all_are_numbers == False:
 
             calc_clust.cluster_row_and_col(cat_net, 'cos')
             inst_cat_order = cat_net.dat['node_info'][inst_rc]['clust']
