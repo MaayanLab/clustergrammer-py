@@ -6,8 +6,6 @@ def export_net_json(net, net_type, indent='no-indent'):
   if net_type == 'dat':
     exp_dict = deepcopy(net.dat)
 
-    print(exp_dict.keys())
-
     if type(exp_dict['mat']) is not list:
       exp_dict['mat'] = exp_dict['mat'].tolist()
       if 'mat_orig' in exp_dict:
