@@ -20,6 +20,19 @@ def load_file(net, filename):
     filename = filename.split('/')[-1]
 
   net.load_tsv_to_net(buff, filename)
+  
+def load_stdin(net):
+  import sys
+  import StringIO
+
+  data = ''
+
+  for line in sys.stdin:
+    data = data + line
+
+  data = StringIO.StringIO(data)
+
+  net.load_tsv_to_net(data)
 
 def load_tsv_to_net(net, file_buffer, filename=None):
   import pandas as pd

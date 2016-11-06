@@ -23,6 +23,13 @@ class Network(object):
     from . import load_data
     load_data.load_file(self, filename)
 
+  def load_stdin(self):
+    '''
+    load stdin tsv formatted string
+    '''
+    from . import load_data
+    load_data.load_stdin(self)
+
   def load_tsv_to_net(self, file_buffer, filename=None):
     '''
     This will load a tsv matrix file buffer, this is exposed so that it will
