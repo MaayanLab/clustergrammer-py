@@ -1,5 +1,9 @@
 def load_file(net, filename):
   import io, sys
+
+  # reset network when loaing file, prevents errors when loading new file
+  net.__init__()
+
   f = open(filename, 'r')
 
   file_string = f.read()
@@ -20,7 +24,7 @@ def load_file(net, filename):
     filename = filename.split('/')[-1]
 
   net.load_tsv_to_net(buff, filename)
-  
+
 def load_stdin(net):
   import sys
   import StringIO
