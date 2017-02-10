@@ -70,7 +70,11 @@ class Network(object):
     The main function run by the user to make their clustergram.
     views is later referred to as requested_views.
     '''
+    from . import initialize_net
     from . import make_clust_fun
+
+    initialize_net.viz(self)
+
     make_clust_fun.make_clust(self, dist_type=dist_type, run_clustering=run_clustering,
                                    dendro=dendro,
                                    requested_views=views,
