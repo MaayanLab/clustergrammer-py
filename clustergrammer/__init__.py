@@ -1,7 +1,7 @@
 # define a class for networks
 class Network(object):
   '''
-  version 1.2.0
+  version 1.2.1
   Networks have two states:
 
   1) the data state, where they are stored as a matrix and nodes
