@@ -1,0 +1,26 @@
+.. clustergrammer-py documentation master file, created by
+   sphinx-quickstart on Thu Feb 16 17:48:32 2017.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to clustergrammer-py's documentation!
+=============================================
+
+Clustergrammer-py
+
+.. toctree::
+   :maxdepth: 2
+
+.. automodule:: clustergrammer
+
+.. autoclass:: Network
+    :members:
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
