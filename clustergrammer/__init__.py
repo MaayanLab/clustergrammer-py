@@ -1,7 +1,10 @@
 # define a class for networks
 class Network(object):
   '''
-  version 1.2.1
+  version 1.2.2
+
+  Clustergrammer.py takes a matrix as input (either from a file of a Pandas DataFrame), normalizes/filters, hierarchically clusters, and produces the :ref:`visualization_json` for :ref:`clustergrammer_js`.
+
   Networks have two states:
 
   1) the data state, where they are stored as a matrix and nodes
@@ -19,21 +22,21 @@ class Network(object):
 
   def reset(self):
     '''
-    function for user to reset network
+    This re-initializes the Network object.
     '''
     from . import initialize_net
     initialize_net.main(self)
 
   def load_file(self, filename):
     '''
-    load file to network, currently supporting only tsv
+    Load tsv file.
     '''
     from . import load_data
     load_data.load_file(self, filename)
 
   def load_stdin(self):
     '''
-    load stdin tsv formatted string
+    Load stdin tsv formatted string.
     '''
     from . import load_data
     load_data.load_stdin(self)
@@ -48,14 +51,14 @@ class Network(object):
 
   def load_vect_post_to_net(self, vect_post):
     '''
-    load vector format to network
+    Load data in the vector format JSON.
     '''
     from . import load_vect_post
     load_vect_post.main(self, vect_post)
 
   def load_data_file_to_net(self, filename):
     '''
-    load my .dat format (saved as json) for a network to a netowrk
+    Load Clustergrammer's dat format (saved as json).
     '''
 
     from . import load_data
@@ -67,8 +70,9 @@ class Network(object):
                  linkage_type='average', sim_mat=False, filter_sim=0.1,
                  calc_cat_pval=False, run_enrichr=None):
     '''
-    The main function run by the user to make their clustergram.
-    views is later referred to as requested_views.
+    .. _make_clust:
+
+    The main function performs hierarchical clustering, optionally generates fitlered views (e.g. row filterd views), and generates the :`visualization_json`.
     '''
     from . import initialize_net
     from . import make_clust_fun
@@ -86,7 +90,7 @@ class Network(object):
 
   def produce_view(self, requested_view=None):
     '''
-    under development, will produce a single view on demand from .dat data
+    This function is under development and will produce a single view on demand.
     '''
     print('\tproduce a single view of a matrix, will be used for get requests')
 
@@ -95,17 +99,17 @@ class Network(object):
       print(requested_view)
 
   def swap_nan_for_zero(self):
+    '''
+    Swaps all NaN (numpy NaN) instances for zero.
+    '''
     from copy import deepcopy
-    '''
-    Expose this to user for their optional use
-    '''
     # self.dat['mat_orig'] = deepcopy(self.dat['mat'])
     import numpy as np
     self.dat['mat'][np.isnan(self.dat['mat'])] = 0
 
   def load_df(self, df):
     '''
-    Upload pandas datafraeme
+    Load Pandas DataFrame.
     '''
     from copy import deepcopy
 
@@ -118,7 +122,7 @@ class Network(object):
 
   def export_df(self):
     '''
-    export dataframe from network
+    Export Pandas DataFrame/
     '''
     from . import data_formats
     df_dict = data_formats.dat_to_df(self)
@@ -126,44 +130,47 @@ class Network(object):
 
   def df_to_dat(self, df):
     '''
-    Convert from pandas dataframe to clustergrammers dat format (will be deprecated)
+    Load Pandas DataFrame (will be deprecated).
     '''
     from . import data_formats
     data_formats.df_to_dat(self, df)
 
   def dat_to_df(self):
     '''
-    convert from clusergrammers dat format to pandas dataframe
+    Export Pandas DataFrams (will be deprecated).
     '''
     from . import data_formats
     return data_formats.dat_to_df(self)
 
   def export_net_json(self, net_type='viz', indent='no-indent'):
     '''
-    export dat or viz json
+    Export dat or viz JSON.
     '''
     from . import export_data
     return export_data.export_net_json(self, net_type, indent)
 
   def widget(self):
     '''
-    export viz json, for use with clustergrammer_widget
+    Export viz json, for use with clustergrammer_widget.
     '''
     from . import export_data
     return export_data.export_net_json(self, 'viz', 'no-indent')
 
   def write_json_to_file(self, net_type, filename, indent='no-indent'):
+    '''Save dat or viz as a JSON to file.'''
+
     from . import export_data
     export_data.write_json_to_file(self, net_type, filename, indent)
 
   def write_matrix_to_tsv(self, filename=None, df=None):
+    '''Export data-matrix to file.'''
+
     from . import export_data
     return export_data.write_matrix_to_tsv(self, filename, df)
 
   def filter_sum(self, inst_rc, threshold, take_abs=True):
     '''
-    Filter a network's rows or columns based on the sum across rows or columns
-    Works on the network object
+    Filter a network's rows or columns based on the sum across rows or columns.
     '''
     from . import run_filter
     inst_df = self.dat_to_df()
@@ -175,8 +182,8 @@ class Network(object):
 
   def filter_N_top(self, inst_rc, N_top, rank_type='sum'):
     '''
-    Filter a network's rows or cols based on sum/variance, and only keep the top
-    N
+    Filter the matrix rows or columnss based on sum/variance, and only keep the top
+    N.
     '''
     from . import run_filter
 
@@ -188,8 +195,8 @@ class Network(object):
 
   def filter_threshold(self, inst_rc, threshold, num_occur=1):
     '''
-    Filter a network's rows or cols based on num_occur values being above a
-    threshold (in absolute value)
+    Filter the matrix rows or columns based on num_occur values being above a
+    threshold (in absolute value).
     '''
     from . import run_filter
 
@@ -202,7 +209,7 @@ class Network(object):
 
   def normalize(self, df=None, norm_type='zscore', axis='row', keep_orig=False):
     '''
-    under development, normalize the network rows/cols using zscore
+    Normalize the matrix rows or columns using Z-score (zscore) or Quantile Normalization (qn).
     '''
     from . import normalize_fun
 
@@ -218,7 +225,7 @@ class Network(object):
   def enrichr(self, req_type, gene_list=None, lib=None, list_id=None,
     max_terms=None):
     '''
-    under development, get enrichment results from Enrichr and add them to
+    Under development, get enrichment results from Enrichr and add them to
     clustergram
     '''
 

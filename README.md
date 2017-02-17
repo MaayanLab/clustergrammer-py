@@ -1,6 +1,9 @@
 # Clustergrammer Python Module
 The python module [clutergrammer.py](clustergrammer), takes a tab-separated matrix file as input (see format [here](#input-matrix-format)), calculates clustering, and generates the visualization json (see format [here](https://github.com/MaayanLab/clustergrammer-json)) for [clustergrammer.js](https://github.com/MaayanLab/clustergrammer). See an [example workflow](#example-workflow) below:
 
+
+Pleae see Clustergramer-PY's [documentation](http://clustergrammer.readthedocs.io/clustergrammer_py.html) for more information.
+
 ## Installation
 The module can be used by downloading the source code here or by installing with [pip](https://pypi.python.org/pypi?:action=display&name=clustergrammer):
 
