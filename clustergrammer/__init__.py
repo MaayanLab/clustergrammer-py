@@ -7,10 +7,8 @@ class Network(object):
 
   Networks have two states:
 
-  1) the data state, where they are stored as a matrix and nodes
-
-  2) the viz state where they are stored as viz.links, viz.row_nodes, and
-  viz.col_nodes.
+    1. the data state, where they are stored as a matrix and nodes
+    2. the viz state where they are stored as viz.links, viz.row_nodes, and viz.col_nodes.
 
   The goal is to start in a data-state and produce a viz-state of
   the network that will be used as input to clustergram.js.
@@ -36,14 +34,14 @@ class Network(object):
 
   def load_stdin(self):
     '''
-    Load stdin tsv formatted string.
+    Load stdin tsv-formatted string.
     '''
     from . import load_data
     load_data.load_stdin(self)
 
   def load_tsv_to_net(self, file_buffer, filename=None):
     '''
-    This will load a tsv matrix file buffer, this is exposed so that it will
+    This will load a tsv matrix file buffer; this is exposed so that it will
     be possible to load data without having to read from a file.
     '''
     from . import load_data
@@ -58,21 +56,20 @@ class Network(object):
 
   def load_data_file_to_net(self, filename):
     '''
-    Load Clustergrammer's dat format (saved as json).
+    Load Clustergrammer's dat format (saved as JSON).
     '''
 
     from . import load_data
     inst_dat = self.load_json_to_dict(filename)
     load_data.load_data_to_net(self, inst_dat)
 
+
   def make_clust(self, dist_type='cosine', run_clustering=True,
                  dendro=True, views=['N_row_sum', 'N_row_var'],
                  linkage_type='average', sim_mat=False, filter_sim=0.1,
                  calc_cat_pval=False, run_enrichr=None):
     '''
-    .. _make_clust:
-
-    The main function performs hierarchical clustering, optionally generates fitlered views (e.g. row filterd views), and generates the :`visualization_json`.
+    The main function performs hierarchical clustering, optionally generates filtered views (e.g. row-filtered views), and generates the :``visualization_json``.
     '''
     from . import initialize_net
     from . import make_clust_fun
@@ -151,7 +148,7 @@ class Network(object):
 
   def widget(self):
     '''
-    Export viz json, for use with clustergrammer_widget.
+    Export viz JSON, for use with clustergrammer_widget.
     '''
     from . import export_data
     return export_data.export_net_json(self, 'viz', 'no-indent')
@@ -182,7 +179,7 @@ class Network(object):
 
   def filter_N_top(self, inst_rc, N_top, rank_type='sum'):
     '''
-    Filter the matrix rows or columnss based on sum/variance, and only keep the top
+    Filter the matrix rows or columns based on sum/variance, and only keep the top
     N.
     '''
     from . import run_filter
@@ -225,8 +222,8 @@ class Network(object):
   def enrichr(self, req_type, gene_list=None, lib=None, list_id=None,
     max_terms=None):
     '''
-    Under development, get enrichment results from Enrichr and add them to
-    clustergram
+    Under development; get enrichment results from Enrichr and add them to
+    clustergram.
     '''
 
     from . import enrichr_functions as enr_fun
