@@ -19,11 +19,11 @@ def main(net, df=None, ds_type='kmeans', axis='row', num_samples=100):
 
 def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
 
+  # string used to format titles
   super_string = ': '
 
   print('number of samples')
   print(num_samples)
-
 
   # downsample rows
   if axis == 'row':
@@ -36,14 +36,13 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   num_returned_clusters = 0
   while num_samples != num_returned_clusters:
 
-    clusters, num_returned_clusters, cluster_labels, cluster_pop = calc_mbk_clusters(X,
-      num_samples, random_state)
+    clusters, num_returned_clusters, cluster_labels, cluster_pop = \
+      calc_mbk_clusters(X, num_samples, random_state)
 
     random_state = random_state + random_state
 
-  row_numbers = range(num_returned_clusters)
-  row_labels = [ 'cluster-' + str(i) for i in row_numbers]
-
+  clust_numbers = range(num_returned_clusters)
+  clust_labels = [ 'cluster-' + str(i) for i in clust_numbers]
 
   # Gather categories if necessary
   ########################################
@@ -52,12 +51,9 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   cat_types = []
   col_info = df.columns.tolist()
 
-  super_string = ': '
-
-  # this is the
+  # this is the index where the categories can be found in the tuple, majority
+  # cat will onle be calculated for the first category type at this time
   category_index = 1
-
-  print(col_info)
 
   # check if there are categories
   if type(col_info[0]) is tuple:
@@ -88,7 +84,8 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   for inst_clust in range(num_samples):
     count_cats[inst_clust] = np.zeros([num_cats])
 
-  # generate an array of column labels
+  # generate an array of orig_labels, using an array so that I can gather
+  # label subsets using indices
   col_array = np.asarray(df.columns.tolist())
 
   # populate count_cats
@@ -123,7 +120,7 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   cluster_info = []
   for i in range(num_returned_clusters):
 
-    inst_name = 'Cluster: ' + row_labels[i]
+    inst_name = 'Cluster: ' + clust_labels[i]
     num_in_clust_string =  'number in clust: '+ str(cluster_pop[i])
 
     cat_values = count_cats[i]
@@ -148,7 +145,7 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   else:
     cols = df.index.tolist()
 
-  # ds_df is always downsampling the rows, if the use wanted to downsample the
+  # ds_df is always downsampling the rows, if the user wants to downsample the
   # columns, the df will be switched back later
   ds_df = pd.DataFrame(data=clusters, index=cluster_info, columns=cols)
 
