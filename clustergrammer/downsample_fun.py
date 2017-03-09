@@ -17,7 +17,7 @@ def main(net, df=None, ds_type='kmeans', axis='row', num_samples=100):
 
   net.load_df(ds_df)
 
-def run_kmeans_mini_batch(df, num_samples=100, axis=0, random_state=1000):
+def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
 
   super_string = ': '
 
@@ -26,7 +26,7 @@ def run_kmeans_mini_batch(df, num_samples=100, axis=0, random_state=1000):
 
 
   # downsample rows
-  if axis == 0:
+  if axis == 'row':
     X = df
   else:
     X = df.transpose()
@@ -56,6 +56,8 @@ def run_kmeans_mini_batch(df, num_samples=100, axis=0, random_state=1000):
 
   category_number = 1
 
+  print(col_info)
+
   # check if there are categories
   if type(col_info[0]) is tuple:
     # print('found categories ')
@@ -72,6 +74,8 @@ def run_kmeans_mini_batch(df, num_samples=100, axis=0, random_state=1000):
       digit_types.append(inst_cat)
 
   digit_types = sorted(list(set(digit_types)))
+
+  print(digit_types)
 
   num_cats = len(digit_types)
 
@@ -124,17 +128,17 @@ def run_kmeans_mini_batch(df, num_samples=100, axis=0, random_state=1000):
     max_cat_index = np.where(cat_values == max_cat_fraction)[0][0]
     max_cat_name = digit_types[max_cat_index]
 
-    cat_name_string = 'Majority Tissue: ' + max_cat_name
+    # add category title if available
+    cat_name_string = 'Majority Category: ' + max_cat_name
 
     inst_tuple = (inst_name, cat_name_string, num_in_clust_string)
 
-    # fraction_string = 'Max Pct: ' + str(max_cat_fraction)
-
+    #  fraction_string = 'Max Pct: ' + str(max_cat_fraction)
     # inst_tuple = inst_tuple + (fraction_string,)
 
     cluster_info.append(inst_tuple)
 
-  if axis == 0:
+  if axis == 'row':
     cols = df.columns.tolist()
   else:
     cols = df.index.tolist()
@@ -144,7 +148,7 @@ def run_kmeans_mini_batch(df, num_samples=100, axis=0, random_state=1000):
   ds_df = pd.DataFrame(data=clusters, index=cluster_info, columns=cols)
 
   # swap back for downsampled columns
-  if axis == 1:
+  if axis == 'col':
     ds_df = ds_df.transpose()
 
   return ds_df, cluster_labels
