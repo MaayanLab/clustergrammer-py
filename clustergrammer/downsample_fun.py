@@ -11,7 +11,7 @@ def main(net, df=None, ds_type='kmeans', axis='row', num_samples=100):
 
   # run downsampling
   random_state = 1000
-  ds_df, cluster_labels = run_kmeans_mini_batch(df, num_samples, axis, random_state)
+  ds_df, cluster_data = run_kmeans_mini_batch(df, num_samples, axis, random_state)
 
   print(ds_df.shape)
 
@@ -45,7 +45,7 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   num_returned_clusters = 0
   while num_samples != num_returned_clusters:
 
-    clusters, num_returned_clusters, cluster_labels, cluster_pop = \
+    clusters, num_returned_clusters, cluster_data, cluster_pop = \
       calc_mbk_clusters(X, num_samples, random_state)
 
     random_state = random_state + random_state
@@ -59,13 +59,17 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   # are found in each of the downsampled clusters.
   cat_types = []
 
-
   # this is the index where the categories can be found in the tuple, majority
   # cat will onle be calculated for the first category type at this time
   category_index = 1
 
-  # check if there are categories
   if type(orig_labels[0]) is tuple:
+    found_cats = True
+  else:
+    found_cats = False
+
+  # check if there are categories
+  if found_cats:
 
     # gather possible categories
     for inst_label in orig_labels:
@@ -78,13 +82,8 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
       # get first category
       cat_types.append(inst_cat)
 
-  else:
-    # need to set something up if there are no categories
-    pass
 
   cat_types = sorted(list(set(cat_types)))
-
-  print(cat_types)
 
   num_cats = len(cat_types)
 
@@ -97,7 +96,7 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   for inst_clust in range(num_samples):
 
     # get the indicies of all original labels that fall in the cluster
-    found = np.where(cluster_labels == inst_clust)
+    found = np.where(cluster_data == inst_clust)
     found_indicies = found[0]
 
     clust_names = orig_array[found_indicies]
@@ -121,8 +120,13 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
     inst_total = np.sum(counts)
     count_cats[inst_clust] = count_cats[inst_clust] / inst_total
 
-  # add number of points in each cluster
-  cluster_info = []
+  # else:
+  #   # need to set something up if there are no categories
+  #   pass
+
+  # genrate cluster labels, e.g. add number in each cluster and majority cat
+  # if necessary
+  cluster_labels = []
   for i in range(num_returned_clusters):
 
     inst_name = 'Cluster: ' + clust_labels[i]
@@ -139,21 +143,24 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
 
     inst_tuple = (inst_name, cat_name_string, num_in_clust_string)
 
+
+    # inst_tuple = (inst_name, cat_name_string, num_in_clust_string)
+
     # # do not keep track of max fraction
     # fraction_string = 'Max Pct: ' + str(max_cat_fraction)
     # inst_tuple = inst_tuple + (fraction_string,)
 
-    cluster_info.append(inst_tuple)
+    cluster_labels.append(inst_tuple)
 
   # ds_df is always downsampling the rows, if the user wants to downsample the
   # columns, the df will be switched back later
-  ds_df = pd.DataFrame(data=clusters, index=cluster_info, columns=non_ds_labels)
+  ds_df = pd.DataFrame(data=clusters, index=cluster_labels, columns=non_ds_labels)
 
   # swap back for downsampled columns
   if axis == 'col':
     ds_df = ds_df.transpose()
 
-  return ds_df, cluster_labels
+  return ds_df, cluster_data
 
 def calc_mbk_clusters(X, n_clusters, random_state=1000):
 
@@ -165,11 +172,11 @@ def calc_mbk_clusters(X, n_clusters, random_state=1000):
   # need to loop through each label (each k-means cluster) and count how many
   # points were given this label. This will give the population size of each label
   mbk.fit(X)
-  cluster_labels = mbk.labels_
+  cluster_data = mbk.labels_
   clusters = mbk.cluster_centers_
 
-  mbk_cluster_names, cluster_pop = np.unique(cluster_labels, return_counts=True)
+  mbk_cluster_names, cluster_pop = np.unique(cluster_data, return_counts=True)
 
   num_returned_clusters = len(cluster_pop)
 
-  return clusters, num_returned_clusters, cluster_labels, cluster_pop
+  return clusters, num_returned_clusters, cluster_data, cluster_pop
