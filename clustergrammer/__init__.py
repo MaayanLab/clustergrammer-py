@@ -17,7 +17,7 @@ from . import downsample_fun
 
 class Network(object):
   '''
-  version 1.4.0
+  version 1.4.1
 
   Clustergrammer.py takes a matrix as input (either from a file of a Pandas DataFrame), normalizes/filters, hierarchically clusters, and produces the :ref:`visualization_json` for :ref:`clustergrammer_js`.
 
@@ -200,7 +200,6 @@ class Network(object):
     '''
     Trim values at input thresholds using pandas function
     '''
-    print('clip')
     df = self.export_df()
     df = df.clip(lower=lower, upper=upper)
     self.load_df(df)
