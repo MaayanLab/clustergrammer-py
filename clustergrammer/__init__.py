@@ -12,6 +12,7 @@ from . import data_formats
 from . import enrichr_functions as enr_fun
 from . import iframe_web_app
 from . import run_filter
+from . import downsample_fun
 
 class Network(object):
   '''
@@ -196,9 +197,16 @@ class Network(object):
 
   def normalize(self, df=None, norm_type='zscore', axis='row', keep_orig=False):
     '''
-    Normalize the matrix rows or columns using Z-score (zscore) or Quantile Normalization (qn).
+    Normalize the matrix rows or columns using Z-score (zscore) or Quantile Normalization (qn). Users can optionally pass in a DataFrame to be normalized (and this will be incorporated into the Network object).
     '''
     normalize_fun.run_norm(self, df, norm_type, axis, keep_orig)
+
+  def downsample(self, df=None, ds_type='kmeans', axis='row'):
+    '''
+    Downsample the matrix rows or columns (currently supporting kmeans only). Users can optionally pass in a DataFrame to be downsampled (and this will be incorporated into the network object).
+    '''
+
+    downsample_fun.main(self, df, ds_type, axis)
 
   def Iframe_web_app(self, filename=None, width=1000, height=800):
 
