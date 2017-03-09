@@ -25,11 +25,20 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   print('number of samples')
   print(num_samples)
 
-  # downsample rows
+  # gather downsampled axis information
   if axis == 'row':
     X = df
+    orig_labels = df.index.tolist()
+    non_ds_labels = df.columns.tolist()
+
   else:
     X = df.transpose()
+    orig_labels = df.columns.tolist()
+    non_ds_labels = df.index.tolist()
+
+  # generate an array of orig_labels, using an array so that I can gather
+  # label subsets using indices
+  orig_array = np.asarray(orig_labels)
 
   # run until the number of returned clusters with data-points is equal to the
   # number of requested clusters
@@ -49,19 +58,19 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   # if there are string categories, then keep track of how many of each category
   # are found in each of the downsampled clusters.
   cat_types = []
-  col_info = df.columns.tolist()
+
 
   # this is the index where the categories can be found in the tuple, majority
   # cat will onle be calculated for the first category type at this time
   category_index = 1
 
   # check if there are categories
-  if type(col_info[0]) is tuple:
+  if type(orig_labels[0]) is tuple:
 
     # gather possible categories
-    for inst_col in col_info:
+    for inst_label in orig_labels:
 
-      inst_cat = inst_col[category_index]
+      inst_cat = inst_label[category_index]
 
       if super_string in inst_cat:
         inst_cat = inst_cat.split(super_string)[1]
@@ -84,18 +93,14 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   for inst_clust in range(num_samples):
     count_cats[inst_clust] = np.zeros([num_cats])
 
-  # generate an array of orig_labels, using an array so that I can gather
-  # label subsets using indices
-  col_array = np.asarray(df.columns.tolist())
-
   # populate count_cats
   for inst_clust in range(num_samples):
 
-    # get the indicies of all columns that fall in the cluster
+    # get the indicies of all original labels that fall in the cluster
     found = np.where(cluster_labels == inst_clust)
     found_indicies = found[0]
 
-    clust_names = col_array[found_indicies]
+    clust_names = orig_array[found_indicies]
 
     for inst_name in clust_names:
 
@@ -140,14 +145,9 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
 
     cluster_info.append(inst_tuple)
 
-  if axis == 'row':
-    cols = df.columns.tolist()
-  else:
-    cols = df.index.tolist()
-
   # ds_df is always downsampling the rows, if the user wants to downsample the
   # columns, the df will be switched back later
-  ds_df = pd.DataFrame(data=clusters, index=cluster_info, columns=cols)
+  ds_df = pd.DataFrame(data=clusters, index=cluster_info, columns=non_ds_labels)
 
   # swap back for downsampled columns
   if axis == 'col':
