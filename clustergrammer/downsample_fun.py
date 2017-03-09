@@ -49,45 +49,49 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   ########################################
   # if there are string categories, then keep track of how many of each category
   # are found in each of the downsampled clusters.
-  digit_types = []
+  cat_types = []
   col_info = df.columns.tolist()
 
   super_string = ': '
 
-  category_number = 1
+  # this is the
+  category_index = 1
 
   print(col_info)
 
   # check if there are categories
   if type(col_info[0]) is tuple:
-    # print('found categories ')
 
     # gather possible categories
     for inst_col in col_info:
 
-      inst_cat = inst_col[category_number]
+      inst_cat = inst_col[category_index]
 
       if super_string in inst_cat:
         inst_cat = inst_cat.split(super_string)[1]
 
       # get first category
-      digit_types.append(inst_cat)
+      cat_types.append(inst_cat)
 
-  digit_types = sorted(list(set(digit_types)))
+  else:
+    # need to set something up if there are no categories
+    pass
 
-  print(digit_types)
+  cat_types = sorted(list(set(cat_types)))
 
-  num_cats = len(digit_types)
+  print(cat_types)
 
-  # initialize digit_cats dictionary
-  digit_cats = {}
+  num_cats = len(cat_types)
+
+  # initialize count_cats dictionary
+  count_cats = {}
   for inst_clust in range(num_samples):
-    digit_cats[inst_clust] = np.zeros([num_cats])
+    count_cats[inst_clust] = np.zeros([num_cats])
 
   # generate an array of column labels
   col_array = np.asarray(df.columns.tolist())
 
-  # populate digit_cats
+  # populate count_cats
   for inst_clust in range(num_samples):
 
     # get the indicies of all columns that fall in the cluster
@@ -99,21 +103,21 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
     for inst_name in clust_names:
 
       # get first category name
-      inst_name = inst_name[category_number]
+      inst_name = inst_name[category_index]
 
       if super_string in inst_name:
         inst_name = inst_name.split(super_string)[1]
 
-      tmp_index = digit_types.index(inst_name)
+      tmp_index = cat_types.index(inst_name)
 
-      digit_cats[inst_clust][tmp_index] = digit_cats[inst_clust][tmp_index] + 1
+      count_cats[inst_clust][tmp_index] = count_cats[inst_clust][tmp_index] + 1
 
   # calculate fractions
   for inst_clust in range(num_samples):
     # get array
-    counts = digit_cats[inst_clust]
+    counts = count_cats[inst_clust]
     inst_total = np.sum(counts)
-    digit_cats[inst_clust] = digit_cats[inst_clust] / inst_total
+    count_cats[inst_clust] = count_cats[inst_clust] / inst_total
 
   # add number of points in each cluster
   cluster_info = []
@@ -122,18 +126,19 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
     inst_name = 'Cluster: ' + row_labels[i]
     num_in_clust_string =  'number in clust: '+ str(cluster_pop[i])
 
-    cat_values = digit_cats[i]
+    cat_values = count_cats[i]
 
     max_cat_fraction = cat_values.max()
     max_cat_index = np.where(cat_values == max_cat_fraction)[0][0]
-    max_cat_name = digit_types[max_cat_index]
+    max_cat_name = cat_types[max_cat_index]
 
     # add category title if available
     cat_name_string = 'Majority Category: ' + max_cat_name
 
     inst_tuple = (inst_name, cat_name_string, num_in_clust_string)
 
-    #  fraction_string = 'Max Pct: ' + str(max_cat_fraction)
+    # # do not keep track of max fraction
+    # fraction_string = 'Max Pct: ' + str(max_cat_fraction)
     # inst_tuple = inst_tuple + (fraction_string,)
 
     cluster_info.append(inst_tuple)
