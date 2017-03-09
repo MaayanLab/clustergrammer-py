@@ -201,12 +201,12 @@ class Network(object):
     '''
     normalize_fun.run_norm(self, df, norm_type, axis, keep_orig)
 
-  def downsample(self, df=None, ds_type='kmeans', axis='row'):
+  def downsample(self, df=None, ds_type='kmeans', axis='row', num_samples=100):
     '''
     Downsample the matrix rows or columns (currently supporting kmeans only). Users can optionally pass in a DataFrame to be downsampled (and this will be incorporated into the network object).
     '''
 
-    downsample_fun.main(self, df, ds_type, axis)
+    downsample_fun.main(self, df, ds_type, axis, num_samples)
 
   def Iframe_web_app(self, filename=None, width=1000, height=800):
 
