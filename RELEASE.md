@@ -11,7 +11,7 @@ Then update the setup.py file to reflect the new version.
 
 adding a tag
 -----------------
-git tag 0.1 -m "Adds a tag so that we can put this on PyPI."
+git tag -a 0.1 -m "Adds a tag so that we can put this on PyPI."
 
 run registering and updating
 
