@@ -6,6 +6,7 @@ clustergrammer/calc_clust.py
 clustergrammer/cat_pval.py
 clustergrammer/categories.py
 clustergrammer/data_formats.py
+clustergrammer/downsample_fun.py
 clustergrammer/enrichr_functions.py
 clustergrammer/export_data.py
 clustergrammer/iframe_web_app.py

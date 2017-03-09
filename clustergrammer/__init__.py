@@ -1,5 +1,6 @@
 
 import numpy as np
+import pandas as pd
 from copy import deepcopy
 
 from . import initialize_net
@@ -194,6 +195,15 @@ class Network(object):
       num_occur)
 
     self.df_to_dat(inst_df)
+
+  def clip(self, lower=None, upper=None):
+    '''
+    Trim values at input thresholds using pandas function
+    '''
+    print('clip')
+    df = self.export_df()
+    df = df.clip(lower=lower, upper=upper)
+    self.load_df(df)
 
   def normalize(self, df=None, norm_type='zscore', axis='row', keep_orig=False):
     '''
