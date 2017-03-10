@@ -53,7 +53,7 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   ########################################
   # check if there are categories
   if found_cats:
-    cat_data = generate_cat_data(cluster_data, orig_labels, num_samples)
+    all_cats = generate_cat_data(cluster_data, orig_labels, num_samples)
 
   # genrate cluster labels, e.g. add number in each cluster and majority cat
   # if necessary
@@ -66,15 +66,16 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
     inst_tuple = (inst_name,)
 
     if found_cats:
-      cat_values = cat_data['counts'][i]
-      max_cat_fraction = cat_values.max()
-      max_index = np.where(cat_values == max_cat_fraction)[0][0]
-      max_cat_name = cat_data['types'][max_index]
+      for cat_data in all_cats:
+        cat_values = cat_data['counts'][i]
+        max_cat_fraction = cat_values.max()
+        max_index = np.where(cat_values == max_cat_fraction)[0][0]
+        max_cat_name = cat_data['types'][max_index]
 
-      # add category title if available
-      cat_name_string = 'Majority-'+ cat_data['title'] +': ' + max_cat_name
+        # add category title if available
+        cat_name_string = 'Majority-'+ cat_data['title'] +': ' + max_cat_name
 
-      inst_tuple = inst_tuple + (cat_name_string,)
+        inst_tuple = inst_tuple + (cat_name_string,)
 
     inst_tuple = inst_tuple + (num_in_clust_string,)
 
@@ -91,76 +92,101 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
   return ds_df, cluster_data
 
 def generate_cat_data(cluster_data, orig_labels, num_samples):
-  # this is the index where the categories can be found in the tuple, majority
-  # cat will onle be calculated for the first category type at this time
-  cat_data = {}
 
   # generate an array of orig_labels, using an array so that I can gather
   # label subsets using indices
   orig_array = np.asarray(orig_labels)
 
-  cat_index = 1
-
   example_label = orig_labels[0]
 
-  if super_string in example_label[cat_index]:
-    cat_data['title'] = example_label[cat_index].split(super_string)[0]
-  else:
-    cat_data['title'] = 'Category'
+  # find out how many string categories are available
+  num_cats = 0
+  for i in range(len(example_label)):
 
-  # if there are string categories, then keep track of how many of each category
-  # are found in each of the downsampled clusters.
-  cat_data['types'] = []
+    if i > 0:
+      inst_cat = example_label[i]
+      if super_string in inst_cat:
+        inst_cat = inst_cat.split(super_string)[1]
 
-  # gather possible categories
-  for inst_label in orig_labels:
+      string_cat = True
+      try:
+        float(inst_cat)
+        string_cat = False
+      except:
+        string_cat = True
 
-    inst_cat = inst_label[cat_index]
+      if string_cat:
+        num_cats = num_cats + 1
 
-    if super_string in inst_cat:
-      inst_cat = inst_cat.split(super_string)[1]
+  all_cats = []
 
-    # get first category
-    cat_data['types'].append(inst_cat)
+  for cat_index in range(num_cats):
 
-  cat_data['types'] = sorted(list(set(cat_data['types'])))
+    # index zero is for the names
+    cat_index = cat_index + 1
 
-  num_cats = len(cat_data['types'])
+    cat_data = {}
 
-  # initialize cat_data['counts'] dictionary
-  cat_data['counts'] = {}
-  for inst_clust in range(num_samples):
-    cat_data['counts'][inst_clust] = np.zeros([num_cats])
+    if super_string in example_label[cat_index]:
+      cat_data['title'] = example_label[cat_index].split(super_string)[0]
+    else:
+      cat_data['title'] = 'Category'
 
-  # populate cat_data['counts']
-  for inst_clust in range(num_samples):
+    # if there are string categories, then keep track of how many of each category
+    # are found in each of the downsampled clusters.
+    cat_data['types'] = []
 
-    # get the indicies of all original labels that fall in the cluster
-    found = np.where(cluster_data == inst_clust)
-    found_indicies = found[0]
+    # gather possible categories
+    for inst_label in orig_labels:
 
-    clust_names = orig_array[found_indicies]
+      inst_cat = inst_label[cat_index]
 
-    for inst_name in clust_names:
+      if super_string in inst_cat:
+        inst_cat = inst_cat.split(super_string)[1]
 
-      # get first category name
-      inst_name = inst_name[cat_index]
+      # get first category
+      cat_data['types'].append(inst_cat)
 
-      if super_string in inst_name:
-        inst_name = inst_name.split(super_string)[1]
+    cat_data['types'] = sorted(list(set(cat_data['types'])))
 
-      tmp_index = cat_data['types'].index(inst_name)
+    num_cats = len(cat_data['types'])
 
-      cat_data['counts'][inst_clust][tmp_index] = cat_data['counts'][inst_clust][tmp_index] + 1
+    # initialize cat_data['counts'] dictionary
+    cat_data['counts'] = {}
+    for inst_clust in range(num_samples):
+      cat_data['counts'][inst_clust] = np.zeros([num_cats])
 
-  # calculate fractions
-  for inst_clust in range(num_samples):
-    # get array
-    counts = cat_data['counts'][inst_clust]
-    inst_total = np.sum(counts)
-    cat_data['counts'][inst_clust] = cat_data['counts'][inst_clust] / inst_total
+    # populate cat_data['counts']
+    for inst_clust in range(num_samples):
 
-  return cat_data
+      # get the indicies of all original labels that fall in the cluster
+      found = np.where(cluster_data == inst_clust)
+      found_indicies = found[0]
+
+      clust_names = orig_array[found_indicies]
+
+      for inst_name in clust_names:
+
+        # get first category name
+        inst_name = inst_name[cat_index]
+
+        if super_string in inst_name:
+          inst_name = inst_name.split(super_string)[1]
+
+        tmp_index = cat_data['types'].index(inst_name)
+
+        cat_data['counts'][inst_clust][tmp_index] = cat_data['counts'][inst_clust][tmp_index] + 1
+
+    # calculate fractions
+    for inst_clust in range(num_samples):
+      # get array
+      counts = cat_data['counts'][inst_clust]
+      inst_total = np.sum(counts)
+      cat_data['counts'][inst_clust] = cat_data['counts'][inst_clust] / inst_total
+
+    all_cats.append(cat_data)
+
+  return all_cats
 
 def calc_mbk_clusters(X, n_clusters, random_state=1000):
 
