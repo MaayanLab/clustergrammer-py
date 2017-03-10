@@ -63,6 +63,8 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
     inst_name = 'Cluster: ' + clust_labels[i]
     num_in_clust_string =  'number in clust: '+ str(cluster_pop[i])
 
+    inst_tuple = (inst_name,)
+
     if found_cats:
       cat_values = cat_data['counts'][i]
       max_cat_fraction = cat_values.max()
@@ -72,10 +74,9 @@ def run_kmeans_mini_batch(df, num_samples=100, axis='row', random_state=1000):
       # add category title if available
       cat_name_string = 'Majority-'+ cat_data['title'] +': ' + max_cat_name
 
-      inst_tuple = (inst_name, cat_name_string, num_in_clust_string)
+      inst_tuple = inst_tuple + (cat_name_string,)
 
-    else:
-      inst_tuple = (inst_name, num_in_clust_string)
+    inst_tuple = inst_tuple + (num_in_clust_string,)
 
     cluster_labels.append(inst_tuple)
 
