@@ -23,6 +23,7 @@ net.load_file('txt/rc_two_cats.txt')
 # net.swap_nan_for_zero()
 # net.downsample(ds_type='kmeans', axis='row', num_samples=7)
 # net.clip(-6,6)
+# net.filter_cat('row', 1, 'Gene Type: Interesting')
 
 net.make_clust(dist_type='cos',views=['N_row_sum', 'N_row_var'] , dendro=True,
                sim_mat=True, filter_sim=0.1, calc_cat_pval=False)
