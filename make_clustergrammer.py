@@ -21,7 +21,7 @@ net.load_file('txt/rc_two_cats.txt')
 # net.filter_N_top('row', 250, rank_type='sum')
 # net.filter_threshold('row', threshold=3.0, num_occur=4)
 # net.swap_nan_for_zero()
-net.downsample(ds_type='kmeans', axis='row', num_samples=7)
+net.downsample(ds_type='kmeans', axis='col', num_samples=7)
 # net.clip(-6,6)
 # net.filter_cat('row', 1, 'Gene Type: Interesting')
 
