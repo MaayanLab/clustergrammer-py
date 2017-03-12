@@ -223,6 +223,25 @@ class Network(object):
 
     downsample_fun.main(self, df, ds_type, axis, num_samples)
 
+  def random_sample(self, num_samples, df=None, replace=False, weights=None, random_state=100, axis='row'):
+    '''
+    Return random sample of matrix.
+    '''
+
+    if df is None:
+      df = self.dat_to_df()
+
+    if axis == 'row':
+      axis=0
+    if axis == 'col':
+      axis=1
+
+    df = self.export_df()
+    df = df.sample(n=num_samples, replace=replace, weights=weights, random_state=random_state,  axis=axis)
+
+    self.load_df(df)
+
+
   def Iframe_web_app(self, filename=None, width=1000, height=800):
 
     link = iframe_web_app.main(self, filename, width, height)
