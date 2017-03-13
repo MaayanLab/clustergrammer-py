@@ -45,6 +45,7 @@ def dict_cat(net, define_cat_colors=False):
     all_cats = [x for x in inst_keys if 'cat-' in x]
 
     for inst_name_cat in all_cats:
+
       dict_cat = {}
       tmp_cats = net.dat['node_info'][inst_rc][inst_name_cat]
       tmp_nodes = net.dat['nodes'][inst_rc]
@@ -62,8 +63,33 @@ def dict_cat(net, define_cat_colors=False):
       net.dat['node_info'][inst_rc][tmp_name] = dict_cat
 
   if define_cat_colors == True:
-    print('define cat colors')
-    net.viz['cat_colors'] = 'something'
+    cat_number = 0
+
+    cat_colors = {}
+
+    for inst_rc in ['row', 'col']:
+
+      cat_colors[inst_rc] = {}
+
+      inst_keys = list(net.dat['node_info'][inst_rc].keys())
+      all_cats = [x for x in inst_keys if 'cat-' in x]
+
+      for cat_index in all_cats:
+
+        cat_colors[inst_rc][cat_index] = {}
+
+        cat_names = sorted(list(set(net.dat['node_info'][inst_rc][cat_index])))
+
+        # loop through each category name and assign a color
+        for tmp_name in cat_names:
+
+          inst_color = get_cat_color(cat_number)
+
+          cat_colors[inst_rc][cat_index][tmp_name] = inst_color
+
+          cat_number = cat_number + 1
+
+    net.viz['cat_colors'] = cat_colors
 
 def calc_cat_clust_order(net, inst_rc):
   '''
@@ -243,3 +269,16 @@ def is_number(s):
         return True
     except ValueError:
         return False
+
+def get_cat_color(cat_num):
+
+  all_colors = [ "#393b79", "#aec7e8", "#ff7f0e", "#ffbb78", "#98df8a", "#bcbd22",
+    "#404040", "#ff9896", "#c5b0d5", "#8c564b", "#1f77b4", "#5254a3", "#FFDB58",
+    "#c49c94", "#e377c2", "#7f7f7f", "#2ca02c", "#9467bd", "#dbdb8d", "#17becf",
+    "#637939", "#6b6ecf", "#9c9ede", "#d62728", "#8ca252", "#8c6d31", "#bd9e39",
+    "#e7cb94", "#843c39", "#ad494a", "#d6616b", "#7b4173", "#a55194", "#ce6dbd",
+    "#de9ed6"];
+
+  inst_color = all_colors[cat_num % len(all_colors)]
+
+  return inst_color
