@@ -83,7 +83,20 @@ def dict_cat(net, define_cat_colors=False):
         # loop through each category name and assign a color
         for tmp_name in cat_names:
 
-          inst_color = get_cat_color(cat_number)
+          # using the same rules as the front-end to define cat_colors
+          inst_color = get_cat_color(cat_number + cat_names.index(tmp_name))
+
+          check_name = tmp_name
+
+          # check for default non-color
+          if ': ' not in check_name:
+            check_name = check_name.split(': ')[1]
+
+          if check_name == 'False':
+            inst_color = '#eee'
+
+          if 'Not ' in check_name:
+            inst_color = '#eee'
 
           cat_colors[inst_rc][cat_index][tmp_name] = inst_color
 

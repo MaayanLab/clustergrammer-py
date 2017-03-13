@@ -3,8 +3,6 @@ def viz_json(net, dendro=True, links=False):
   from . import calc_clust
   import numpy as np
 
-  print(net.viz.keys())
-
   all_dist = calc_clust.group_cutoffs()
 
   for inst_rc in net.dat['nodes']:

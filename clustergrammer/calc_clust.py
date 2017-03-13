@@ -43,8 +43,6 @@ def cluster_row_and_col(net, dist_type='cosine', linkage_type='average',
   if calc_cat_pval is True:
     cat_pval.main(net)
 
-  print(net.viz.keys())
-
   # make the visualization json
   make_viz.viz_json(net, dendro, links)
 
