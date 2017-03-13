@@ -20,7 +20,10 @@ def main(self):
   self.viz['col_nodes'] = []
   self.viz['links'] = []
   self.viz['mat'] = []
+
   self.viz['cat_colors'] = {}
+  self.viz['cat_colors']['row'] = {}
+  self.viz['cat_colors']['col'] = {}
 
   self.sim = {}
 
@@ -37,5 +40,7 @@ def viz(self, reset_cat_colors=False):
 
   if reset_cat_colors == True:
     self.viz['cat_colors'] = {}
+    self.viz['cat_colors']['row'] = {}
+    self.viz['cat_colors']['col'] = {}
   else:
     self.viz['cat_colors'] = old_cat_colors

@@ -62,14 +62,15 @@ def dict_cat(net, define_cat_colors=False):
       tmp_name = 'dict_' + inst_name_cat.replace('-', '_')
       net.dat['node_info'][inst_rc][tmp_name] = dict_cat
 
+  # merge with old cat_colors by default
+  cat_colors = net.viz['cat_colors']
+
   if define_cat_colors == True:
     cat_number = 0
 
-    cat_colors = {}
-
     for inst_rc in ['row', 'col']:
 
-      cat_colors[inst_rc] = {}
+      # cat_colors[inst_rc] = {}
 
       inst_keys = list(net.dat['node_info'][inst_rc].keys())
       all_cats = [x for x in inst_keys if 'cat-' in x]
@@ -98,7 +99,9 @@ def dict_cat(net, define_cat_colors=False):
           if 'Not ' in check_name:
             inst_color = '#eee'
 
-          cat_colors[inst_rc][cat_index][tmp_name] = inst_color
+          # do not overwrite old colors
+          if tmp_name not in cat_colors[inst_rc][cat_index]:
+            cat_colors[inst_rc][cat_index][tmp_name] = inst_color
 
           cat_number = cat_number + 1
 
