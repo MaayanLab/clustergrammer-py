@@ -133,6 +133,23 @@ class Network(object):
     '''
     data_formats.df_to_dat(self, df, define_cat_colors)
 
+  def set_cat_color(self, axis, cat_index, cat_name, inst_color):
+
+    if axis == 0:
+      axis = 'row'
+    if axis == 1:
+      axis = 'col'
+
+    # try:
+    # process cat_index
+    cat_index = cat_index - 1
+    cat_index = 'cat-' + str(cat_index)
+
+    self.viz['cat_colors'][axis][cat_index][cat_name] = inst_color
+
+    # except:
+    #   print('there was an error setting the category color')
+
   def dat_to_df(self):
     '''
     Export Pandas DataFrams (will be deprecated).
@@ -233,9 +250,9 @@ class Network(object):
       df = self.dat_to_df()
 
     if axis == 'row':
-      axis=0
+      axis = 0
     if axis == 'col':
-      axis=1
+      axis = 1
 
     df = self.export_df()
     df = df.sample(n=num_samples, replace=replace, weights=weights, random_state=random_state,  axis=axis)
