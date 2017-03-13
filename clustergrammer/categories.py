@@ -36,7 +36,7 @@ def check_categories(lines):
 
   return num_labels
 
-def dict_cat(net):
+def dict_cat(net, define_cat_colors=False):
   '''
   make a dictionary of node-category associations
   '''
@@ -60,6 +60,10 @@ def dict_cat(net):
 
       tmp_name = 'dict_' + inst_name_cat.replace('-', '_')
       net.dat['node_info'][inst_rc][tmp_name] = dict_cat
+
+  if define_cat_colors == True:
+    print('define cat colors')
+    net.viz['cat_colors'] = 'something'
 
 def calc_cat_clust_order(net, inst_rc):
   '''

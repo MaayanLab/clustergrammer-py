@@ -20,6 +20,7 @@ def main(self):
   self.viz['col_nodes'] = []
   self.viz['links'] = []
   self.viz['mat'] = []
+  self.viz['cat_colors'] = {}
 
   self.sim = {}
 
