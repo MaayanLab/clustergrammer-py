@@ -90,7 +90,7 @@ def dict_cat(net, define_cat_colors=False):
           check_name = tmp_name
 
           # check for default non-color
-          if ': ' not in check_name:
+          if ': ' in check_name:
             check_name = check_name.split(': ')[1]
 
           if check_name == 'False':
@@ -99,8 +99,15 @@ def dict_cat(net, define_cat_colors=False):
           if 'Not ' in check_name:
             inst_color = '#eee'
 
+          # check if category is string type and non-numeric
+          try:
+            float(check_name)
+            is_string_cat = False
+          except:
+            is_string_cat = True
+
           # do not overwrite old colors
-          if tmp_name not in cat_colors[inst_rc][cat_index]:
+          if tmp_name not in cat_colors[inst_rc][cat_index] and is_string_cat:
             cat_colors[inst_rc][cat_index][tmp_name] = inst_color
 
           cat_number = cat_number + 1
