@@ -40,6 +40,12 @@ def dict_cat(net, define_cat_colors=False):
   '''
   make a dictionary of node-category associations
   '''
+
+  print(define_cat_colors)
+  print(net.viz['cat_colors'])
+
+  net.persistent_cat = True
+
   for inst_rc in ['row', 'col']:
     inst_keys = list(net.dat['node_info'][inst_rc].keys())
     all_cats = [x for x in inst_keys if 'cat-' in x]
@@ -69,8 +75,6 @@ def dict_cat(net, define_cat_colors=False):
     cat_number = 0
 
     for inst_rc in ['row', 'col']:
-
-      # cat_colors[inst_rc] = {}
 
       inst_keys = list(net.dat['node_info'][inst_rc].keys())
       all_cats = [x for x in inst_keys if 'cat-' in x]
