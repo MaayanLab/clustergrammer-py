@@ -70,3 +70,6 @@ sftp-config.json
 # git rm -r --cached .
 # git add .
 # git commit -m "fixing .gitignore"
+
+
+txt/ds_*
