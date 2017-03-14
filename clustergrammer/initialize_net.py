@@ -30,12 +30,12 @@ def main(self):
   self.viz['mat'] = []
 
   if found_cats == False:
-    print('no persistent_cat')
+    # print('no persistent_cat')
     self.viz['cat_colors'] = {}
     self.viz['cat_colors']['row'] = {}
     self.viz['cat_colors']['col'] = {}
   else:
-    print('yes persistent_cat')
+    # print('yes persistent_cat')
     self.viz['cat_colors'] = inst_cat_colors
 
   self.sim = {}

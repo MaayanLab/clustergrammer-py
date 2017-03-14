@@ -41,11 +41,11 @@ def dict_cat(net, define_cat_colors=False):
   make a dictionary of node-category associations
   '''
 
-  print('---------------------------------')
-  print('---- dict_cat: before setting cat colors')
-  print('---------------------------------\n')
-  print(define_cat_colors)
-  print(net.viz['cat_colors'])
+  # print('---------------------------------')
+  # print('---- dict_cat: before setting cat colors')
+  # print('---------------------------------\n')
+  # print(define_cat_colors)
+  # print(net.viz['cat_colors'])
 
   net.persistent_cat = True
 
@@ -114,25 +114,23 @@ def dict_cat(net, define_cat_colors=False):
           except:
             is_string_cat = True
 
-
-          print('cat_colors')
-          print('----------')
-          print(cat_colors[inst_rc][cat_index])
+          # print('cat_colors')
+          # print('----------')
+          # print(cat_colors[inst_rc][cat_index])
 
           # do not overwrite old colors
           if tmp_name not in cat_colors[inst_rc][cat_index] and is_string_cat:
 
             cat_colors[inst_rc][cat_index][tmp_name] = inst_color
-            print('overwrite: ' + tmp_name + ' -> ' + str(inst_color))
+            # print('overwrite: ' + tmp_name + ' -> ' + str(inst_color))
 
           cat_number = cat_number + 1
 
     net.viz['cat_colors'] = cat_colors
 
-
-    print('after setting cat_colors')
-    print(net.viz['cat_colors'])
-    print('======================================\n\n')
+    # print('after setting cat_colors')
+    # print(net.viz['cat_colors'])
+    # print('======================================\n\n')
 
 def calc_cat_clust_order(net, inst_rc):
   '''
