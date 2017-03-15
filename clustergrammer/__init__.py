@@ -259,6 +259,8 @@ class Network(object):
 
     self.load_df(df)
 
+  def dendro_cats(self, axis, dendro_level):
+    print('dendro_cats')
 
   def Iframe_web_app(self, filename=None, width=1000, height=800):
 
