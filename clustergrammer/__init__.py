@@ -262,9 +262,10 @@ class Network(object):
 
   def dendro_cats(self, axis, dendro_level):
     '''
-    Generate categories from dendrogram groups/clusters.
+    Generate categories from dendrogram groups/clusters. The dendrogram has 11
+    levels to choose from 0 -> 10. Dendro_level can be given as an integer or
+    string.
     '''
-
     categories.dendro_cats(self, axis, dendro_level)
 
   def Iframe_web_app(self, filename=None, width=1000, height=800):
