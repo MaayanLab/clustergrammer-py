@@ -14,6 +14,7 @@ from . import enrichr_functions as enr_fun
 from . import iframe_web_app
 from . import run_filter
 from . import downsample_fun
+from . import categories
 
 class Network(object):
   '''
@@ -260,7 +261,11 @@ class Network(object):
     self.load_df(df)
 
   def dendro_cats(self, axis, dendro_level):
-    print('dendro_cats')
+    '''
+    Generate categories from dendrogram groups/clusters.
+    '''
+
+    categories.dendro_cats(self, axis, dendro_level)
 
   def Iframe_web_app(self, filename=None, width=1000, height=800):
 

@@ -323,3 +323,16 @@ def get_cat_color(cat_num):
   inst_color = all_colors[cat_num % len(all_colors)]
 
   return inst_color
+
+def dendro_cats(net, axis, dendro_level):
+  print('dendro_cats')
+
+  if axis == 0:
+    axis = 'row'
+  if axis == 1:
+    axis = 'col'
+
+  if 'group' in net.dat['node_info'][axis]:
+    print('found groups')
+  else:
+    print('did not find groups')
