@@ -15,6 +15,7 @@ clustergrammer/load_data.py
 clustergrammer/load_vect_post.py
 clustergrammer/make_clust_fun.py
 clustergrammer/make_sim_mat.py
+clustergrammer/make_unique_labels.py
 clustergrammer/make_views.py
 clustergrammer/make_viz.py
 clustergrammer/normalize_fun.py
