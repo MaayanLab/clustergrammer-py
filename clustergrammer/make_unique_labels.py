@@ -11,18 +11,28 @@ def main(net, df=None):
 
   # list row names
   rows = df.index.tolist()
-  if len(rows) != len(list(set(rows))):
-    print('found duplicate rows')
-    new_rows = add_index_list(rows)
-    print(new_rows)
-    df.index = new_rows
+  if type(rows[0]) is str:
 
-  # list column names
+    if len(rows) != len(list(set(rows))):
+      print('found duplicate rows')
+      new_rows = add_index_list(rows)
+      print(new_rows)
+      df.index = new_rows
+
+  elif type(rows[0]) is tuple:
+    print('TUPLE ROWS')
+
   cols = df.columns.tolist()
-  if len(cols) != len(list(set(cols))):
-    print('found duplicate cols')
-    new_cols = add_index_list(cols)
-    df.columns = new_cols
+  print(cols[0])
+  if type(cols[0]) is str:
+    # list column names
+    if len(cols) != len(list(set(cols))):
+      print('found duplicate cols')
+      new_cols = add_index_list(cols)
+      df.columns = new_cols
+
+  elif type(cols[0]) is tuple:
+    print('TUPLE COLS')
 
   return df
 
