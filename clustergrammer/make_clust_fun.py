@@ -53,10 +53,7 @@ def make_clust(net, dist_type='cosine', run_clustering=True, dendro=True,
 
   which_sim = []
 
-  print(sim_mat)
-
   if sim_mat == True:
-    print('initialize which_sim')
     which_sim = ['row', 'col']
   elif sim_mat == 'row':
     which_sim = ['row']
@@ -64,8 +61,6 @@ def make_clust(net, dist_type='cosine', run_clustering=True, dendro=True,
     which_sim = ['col']
 
   if sim_mat is not False:
-
-    print('make similarity matrices of rows and columns, add to viz data structure')
     sim_net = make_sim_mat.main(net, inst_dm, which_sim, filter_sim, sim_mat_views)
 
     net.sim = {}
