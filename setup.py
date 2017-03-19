@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'clustergrammer',
   packages = ['clustergrammer'], # this must be the same as the name above
-  version = '1.7.1',
+  version = '1.8.0',
   description = 'A python module for the Clustergrammer visualization project',
   author = 'Nicolas Fernandez',
   author_email = 'nickfloresfernandez@gmail.com',
