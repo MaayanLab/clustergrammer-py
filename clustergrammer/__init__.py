@@ -271,7 +271,27 @@ class Network(object):
     Add categories to rows or columns using cat_data array of objects. Each object in cat_data is a dictionary with one key (category title) and value (rows/column names) that have this category. Categories will be added onto the existing categories and will be added in the order of the objects in the array.
 
     Example cat_data
-    [{'title':'new_cat', 'cats':{'something':['ROS1','AAK1'], 'another cat':['MAPK4','SRC']}}]
+
+    [
+      {
+        "title": "First Category",
+        "cats": {
+          "true": [
+            "ROS1",
+            "AAK1"
+          ]
+        }
+      },
+      {
+        "title": "Second Category",
+        "cats": {
+          "something": [
+            "PDK4"
+          ]
+        }
+      }
+    ]
+
     '''
     for inst_data in cat_data:
       categories.add_cats(self, axis, inst_data)
