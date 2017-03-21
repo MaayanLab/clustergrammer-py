@@ -361,5 +361,33 @@ def dendro_cats(net, axis, dendro_level):
     net.load_df(df)
 
   else:
-    print('please cluster, using make_clust, to define dendrogram groups before running')
+    print('please cluster, using make_clust, to define dendrogram groups before running dendro_cats')
+
+# def add_cats(net, axis, cat_data):
+
+#   print('cat_data')
+#   print(cat_data)
+
+#   df = net.export_df()
+
+#   if axis == 'row':
+#     labels = df.index.tolist()
+#   elif axis == 'col':
+#     labels = df.columns.tolist()
+
+#   inst_title = cat_data['title']
+#   inst_names = cat_data['names']
+
+#   for inst_label in labels:
+
+#     if type(inst_label) is tuple:
+#       check_name = inst_label[0]
+#     else:
+#       check_name = inst_label
+
+#     if ': ' in check_name:
+#       check_name = check_name.split(': ')[1]
+
+
+
 

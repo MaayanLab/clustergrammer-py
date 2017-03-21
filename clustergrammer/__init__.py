@@ -266,6 +266,13 @@ class Network(object):
 
     self.load_df(df)
 
+  # def add_cats(self, axis, cat_data):
+  #   '''
+  #   Add categories to rows or columns using cat_data array of objects. Each object in cat_data is a dictionary with one key (category title) and value (rows/column names) that have this category. Categories will be added onto the existing categories and will be added in the order of the objects in the array.
+  #   '''
+  #   for inst_data in cat_data:
+  #     categories.add_cats(self, axis, inst_data)
+
   def dendro_cats(self, axis, dendro_level):
     '''
     Generate categories from dendrogram groups/clusters. The dendrogram has 11
