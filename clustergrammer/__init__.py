@@ -141,15 +141,15 @@ class Network(object):
     if axis == 1:
       axis = 'col'
 
-    # try:
-    # process cat_index
-    cat_index = cat_index - 1
-    cat_index = 'cat-' + str(cat_index)
+    try:
+      # process cat_index
+      cat_index = cat_index - 1
+      cat_index = 'cat-' + str(cat_index)
 
-    self.viz['cat_colors'][axis][cat_index][cat_name] = inst_color
+      self.viz['cat_colors'][axis][cat_index][cat_name] = inst_color
 
-    # except:
-    #   print('there was an error setting the category color')
+    except:
+      print('there was an error setting the category color')
 
   def dat_to_df(self):
     '''
@@ -221,6 +221,12 @@ class Network(object):
     '''
     run_filter.filter_cat(self, axis, cat_index, cat_name)
 
+  def filter_names(self, axis, names):
+    '''
+    Filter the visualization using row/column names. The function takes, axis ('row'/'col') and names, a list of strings.
+    '''
+    run_filter.filter_names(self, axis, names)
+
   def clip(self, lower=None, upper=None):
     '''
     Trim values at input thresholds using pandas function
@@ -241,8 +247,6 @@ class Network(object):
     '''
 
     return downsample_fun.main(self, df, ds_type, axis, num_samples)
-
-
 
   def random_sample(self, num_samples, df=None, replace=False, weights=None, random_state=100, axis='row'):
     '''
