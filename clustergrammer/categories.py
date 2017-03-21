@@ -363,30 +363,65 @@ def dendro_cats(net, axis, dendro_level):
   else:
     print('please cluster, using make_clust, to define dendrogram groups before running dendro_cats')
 
-# def add_cats(net, axis, cat_data):
+def add_cats(net, axis, cat_data):
 
-#   print('cat_data')
-#   print(cat_data)
+  print('cat_data')
+  print(cat_data)
 
-#   df = net.export_df()
+  df = net.export_df()
 
-#   if axis == 'row':
-#     labels = df.index.tolist()
-#   elif axis == 'col':
-#     labels = df.columns.tolist()
+  if axis == 'row':
+    labels = df.index.tolist()
+  elif axis == 'col':
+    labels = df.columns.tolist()
 
-#   inst_title = cat_data['title']
-#   inst_names = cat_data['names']
+  inst_title = cat_data['title']
+  all_cats = cat_data['cats']
 
-#   for inst_label in labels:
+  # loop through all labels
+  new_labels = []
+  for inst_label in labels:
 
-#     if type(inst_label) is tuple:
-#       check_name = inst_label[0]
-#     else:
-#       check_name = inst_label
+    if type(inst_label) is tuple:
+      check_name = inst_label[0]
+      found_tuple = True
+    else:
+      check_name = inst_label
+      found_tuple = False
 
-#     if ': ' in check_name:
-#       check_name = check_name.split(': ')[1]
+    if ': ' in check_name:
+      check_name = check_name.split(': ')[1]
+
+    # default to False for found cat, overwrite if necessary
+    found_cat = inst_title + ': False'
+
+    # check all categories in cats
+    for inst_cat in all_cats:
+
+      inst_names = all_cats[inst_cat]
+
+      if check_name in inst_names:
+        print('\tfound ' + check_name + ' with cat: ' + inst_cat)
+        found_cat = inst_title + ': ' + inst_cat
+
+
+    # add category to label
+    if found_tuple is True:
+      new_label = inst_label + (found_cat,)
+    else:
+      new_label = (inst_label, found_cat)
+
+    new_labels.append(new_label)
+
+
+  # add labels back to DataFrame
+  if axis == 'row':
+    df.index = new_labels
+  elif axis == 'col':
+    df.columns = new_labels
+
+  net.load_df(df)
+
 
 
 
