@@ -162,6 +162,9 @@ class Network(object):
     data_formats.df_to_dat(self, df, define_cat_colors)
 
   def set_cat_color(self, axis, cat_index, cat_name, inst_color):
+    '''
+    Set category colors that are persistent across re-loading of data.
+    '''
 
     if axis == 0:
       axis = 'row'
