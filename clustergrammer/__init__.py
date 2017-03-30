@@ -18,7 +18,7 @@ from . import categories
 
 class Network(object):
   '''
-  version 1.11.0
+  version 1.12.0
 
   Clustergrammer.py takes a matrix as input (either from a file of a Pandas DataFrame), normalizes/filters, hierarchically clusters, and produces the :ref:`visualization_json` for :ref:`clustergrammer_js`.
 
@@ -31,8 +31,8 @@ class Network(object):
   the network that will be used as input to clustergram.js.
   '''
 
-  def __init__(self):
-    initialize_net.main(self)
+  def __init__(self, widget=None):
+    initialize_net.main(self, widget)
 
   def reset(self):
     '''
@@ -79,14 +79,33 @@ class Network(object):
     inst_dat = self.load_json_to_dict(filename)
     load_data.load_data_to_net(self, inst_dat)
 
-
-  def make_clust(self, dist_type='cosine', run_clustering=True,
+  def cluster(self, dist_type='cosine', run_clustering=True,
                  dendro=True, views=['N_row_sum', 'N_row_var'],
                  linkage_type='average', sim_mat=False, filter_sim=0.1,
                  calc_cat_pval=False, run_enrichr=None):
     '''
     The main function performs hierarchical clustering, optionally generates filtered views (e.g. row-filtered views), and generates the :``visualization_json``.
     '''
+    initialize_net.viz(self)
+
+    make_clust_fun.make_clust(self, dist_type=dist_type, run_clustering=run_clustering,
+                                   dendro=dendro,
+                                   requested_views=views,
+                                   linkage_type=linkage_type,
+                                   sim_mat=sim_mat,
+                                   filter_sim=filter_sim,
+                                   calc_cat_pval=calc_cat_pval,
+                                   run_enrichr=run_enrichr)
+
+  def make_clust(self, dist_type='cosine', run_clustering=True,
+                 dendro=True, views=['N_row_sum', 'N_row_var'],
+                 linkage_type='average', sim_mat=False, filter_sim=0.1,
+                 calc_cat_pval=False, run_enrichr=None):
+    '''
+    ... Will be deprecated, renaming method cluster ...
+    The main function performs hierarchical clustering, optionally generates filtered views (e.g. row-filtered views), and generates the :``visualization_json``.
+    '''
+    print('make_clust method will be deprecated in next version, please use cluster method.')
     initialize_net.viz(self)
 
     make_clust_fun.make_clust(self, dist_type=dist_type, run_clustering=run_clustering,
@@ -171,11 +190,55 @@ class Network(object):
     '''
     return export_data.export_net_json(self, net_type, indent)
 
+  def export_viz_to_widget(self, which_viz='viz'):
+    '''
+    Export viz JSON, for use with clustergrammer_widget. Formerly method was
+    named widget.
+    '''
+
+    return export_data.export_net_json(self, which_viz, 'no-indent')
+
   def widget(self, which_viz='viz'):
     '''
-    Export viz JSON, for use with clustergrammer_widget.
+    Generate a widget visualization using the widget. The export_viz_to_widget
+    method passes the visualization JSON to the instantiated widget, which is
+    returned and visualized on the front-end.
     '''
-    return export_data.export_net_json(self, which_viz, 'no-indent')
+    if hasattr(self, 'widget_class') == True:
+      self.widget_instance = self.widget_class(network = self.export_viz_to_widget(which_viz))
+
+      return self.widget_instance
+    else:
+      print('Can not make widget because Network has no attribute widget_class')
+      print('Please instantiate Network with clustergrammer_widget using: Network(clustergrammer_widget)')
+
+
+  def widget_df(self):
+    '''
+    Export a DataFrame from the front-end visualization. For instance, a user
+    can filter to show only a single cluster using the dendrogram and then
+    get a dataframe of this cluster using the widget_df method.
+    '''
+
+    if hasattr(self, 'widget_instance') == True:
+      tmp_net = deepcopy(Network())
+
+      df_string = self.widget_instance.mat_string
+
+      tmp_net.load_file_as_string(df_string)
+
+      df = tmp_net.export_df()
+
+      return df
+
+    else:
+      if hasattr(self, 'widget_class') == True:
+        print('Please make the widget before exporting the widget DataFrame.')
+        print('Do this using the widget method: net.widget()')
+
+      else:
+        print('Can not make widget because Network has no attribute widget_class')
+        print('Please instantiate Network with clustergrammer_widget using: Network(clustergrammer_widget)')
 
   def write_json_to_file(self, net_type, filename, indent='no-indent'):
     '''

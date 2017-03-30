@@ -27,7 +27,7 @@ net.load_file('txt/rc_two_cats.txt')
 # net.filter_cat('row', 1, 'Gene Type: Interesting')
 # net.set_cat_color('col', 1, 'Category: one', 'blue')
 
-net.make_clust(dist_type='cos',views=['N_row_sum', 'N_row_var'] , dendro=True,
+net.cluster(dist_type='cos',views=['N_row_sum', 'N_row_var'] , dendro=True,
              sim_mat=True, filter_sim=0.1, calc_cat_pval=False)
 
 # write jsons for front-end visualizations
