@@ -28,7 +28,7 @@ net.load_file('txt/rc_two_cats.txt')
 # net.set_cat_color('col', 1, 'Category: one', 'blue')
 
 net.cluster(dist_type='cos',views=['N_row_sum', 'N_row_var'] , dendro=True,
-             sim_mat=True, filter_sim=0.1, calc_cat_pval=False)
+             sim_mat=True, filter_sim=0.1, calc_cat_pval=False, enrichrgram=True)
 
 # write jsons for front-end visualizations
 net.write_json_to_file('viz', 'json/mult_view.json', 'no-indent')
