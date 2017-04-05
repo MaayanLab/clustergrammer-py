@@ -18,7 +18,7 @@ from . import categories
 
 class Network(object):
   '''
-  version 1.12.0
+  version 1.12.1
 
   Clustergrammer.py takes a matrix as input (either from a file of a Pandas DataFrame), normalizes/filters, hierarchically clusters, and produces the :ref:`visualization_json` for :ref:`clustergrammer_js`.
 
@@ -162,9 +162,6 @@ class Network(object):
     data_formats.df_to_dat(self, df, define_cat_colors)
 
   def set_cat_color(self, axis, cat_index, cat_name, inst_color):
-    '''
-    Set category colors that are persistent across re-loading of data.
-    '''
 
     if axis == 0:
       axis = 'row'
