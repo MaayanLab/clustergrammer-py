@@ -23,8 +23,6 @@ def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
 
   print((type(response_list)))
 
-  # import pdb; pdb.set_trace()
-
   # p-value, adjusted pvalue, z-score, combined score, genes
   # 1: Term
   # 2: P-value
