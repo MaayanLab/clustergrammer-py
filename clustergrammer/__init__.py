@@ -403,6 +403,11 @@ class Network(object):
   #   if req_type == 'get':
   #     return enr_fun.get_request(lib, list_id, max_terms)
 
+  def enrichrgram(self, lib, axis='row'):
+    df = self.export_df()
+    df = enr_fun.add_enrichr_cats(df, axis, lib)
+    self.load_df(df)
+
   @staticmethod
   def load_gmt(filename):
     return load_data.load_gmt(filename)

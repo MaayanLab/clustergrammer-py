@@ -3,7 +3,7 @@ def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
 
   # print('add enrichr categories to genes')
 
-  tmp_gene_list = deepcopy(df['mat'].index.tolist())
+  tmp_gene_list = deepcopy(df.index.tolist())
 
   gene_list = []
   if type(tmp_gene_list[0]) is tuple:
@@ -54,13 +54,7 @@ def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
 
   cat_list = [tuple(x) for x in cat_list]
 
-  # df = deepcopy(net.dat_to_df())
-  df['mat'].index = cat_list
-  # net.df_to_dat(df)
-
-  # net.dat['nodes'][inst_rc] = cat_list
-
-  # print(df)
+  df.index = cat_list
 
   return df
 
