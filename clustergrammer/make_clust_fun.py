@@ -90,3 +90,7 @@ def make_clust(net, dist_type='cosine', run_clustering=True, dendro=True,
   if enrichrgram != None:
     # toggle enrichrgram functionality from back-end
     net.viz['enrichrgram'] = enrichrgram
+
+  if 'enrichrgram_lib' in net.dat:
+    net.viz['enrichrgram'] = True
+    net.viz['enrichrgram_lib'] = net.dat['enrichrgram_lib']

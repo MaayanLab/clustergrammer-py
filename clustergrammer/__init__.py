@@ -391,22 +391,12 @@ class Network(object):
 
     return link
 
-  # def enrichr(self, req_type, gene_list=None, lib=None, list_id=None,
-  #   max_terms=None):
-  #   '''
-  #   Under development; get enrichment results from Enrichr and add them to
-  #   clustergram.
-  #   '''
-  #   if req_type == 'post':
-  #     return enr_fun.post_request(gene_list)
-
-  #   if req_type == 'get':
-  #     return enr_fun.get_request(lib, list_id, max_terms)
-
   def enrichrgram(self, lib, axis='row'):
     df = self.export_df()
     df = enr_fun.add_enrichr_cats(df, axis, lib)
     self.load_df(df)
+
+    self.dat['enrichrgram_lib'] = lib
 
   @staticmethod
   def load_gmt(filename):
