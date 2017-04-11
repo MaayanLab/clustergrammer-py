@@ -38,19 +38,21 @@ def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
 
   for inst_enr in response_list[0:num_terms]:
     inst_term = inst_enr[1]
+    inst_pval = inst_enr[2]
     inst_list = inst_enr[5]
+
+    pval_string = '<p> Pval ' + str(inst_pval) + '</p>'
 
     for inst_info in cat_list:
 
       gene_name = inst_info[0].split(': ')[-1]
 
-      # print(gene_name)
-
-
       if gene_name in inst_list:
-        inst_info.append(inst_term+': '+inst_term)
+        # inst_info.append(inst_term+': '+inst_term)
+        inst_info.append(inst_term+': True'+ pval_string)
       else:
-        inst_info.append(inst_term+': Not '+inst_term)
+        # inst_info.append(inst_term+': Not '+inst_term)
+        inst_info.append(inst_term+': False'+pval_string)
 
   cat_list = [tuple(x) for x in cat_list]
 
