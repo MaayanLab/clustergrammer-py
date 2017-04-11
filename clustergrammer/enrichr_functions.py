@@ -1,6 +1,7 @@
 def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
   from copy import deepcopy
-  print('add enrichr categories to genes')
+
+  # print('add enrichr categories to genes')
 
   tmp_gene_list = deepcopy(df['mat'].index.tolist())
 
@@ -17,11 +18,11 @@ def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
 
   user_list_id = post_request(gene_list)
 
-  print(user_list_id)
+  # print(user_list_id)
 
-  enr, response_list = get_request(run_enrichr[0], user_list_id, max_terms=20)
+  enr, response_list = get_request(run_enrichr, user_list_id, max_terms=20)
 
-  print((type(response_list)))
+  # print((type(response_list)))
 
   # p-value, adjusted pvalue, z-score, combined score, genes
   # 1: Term
@@ -43,7 +44,7 @@ def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
 
       gene_name = inst_info[0].split(': ')[-1]
 
-      print(gene_name)
+      # print(gene_name)
 
 
       if gene_name in inst_list:
@@ -59,6 +60,8 @@ def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
 
   # net.dat['nodes'][inst_rc] = cat_list
 
+  # print(df)
+
   return df
 
 def clust_from_response(response_list):
@@ -69,9 +72,9 @@ def clust_from_response(response_list):
   import math
   from copy import deepcopy
 
-  print('----------------------')
-  print('enrichr_clust_from_response')
-  print('----------------------')
+  # print('----------------------')
+  # print('enrichr_clust_from_response')
+  # print('----------------------')
 
   ini_enr = transfer_to_enr_dict( response_list )
 
@@ -254,7 +257,7 @@ def post_request(input_genes, meta=''):
 
 # make the get request to enrichr using the requests library
 # this is done after submitting post request with the input gene list
-def get_request( lib, userListId, max_terms=50 ):
+def get_request(lib, userListId, max_terms=50 ):
   import requests
   import json
 
@@ -272,7 +275,9 @@ def get_request( lib, userListId, max_terms=50 ):
 
   # wait until okay status code is returned
   num_try = 0
-  print(('\tEnrichr enrichment get req userListId: '+str(userListId)))
+
+  # print(('\tEnrichr enrichment get req userListId: '+str(userListId)))
+
   while inst_status_code == 400 and num_try < 100:
     num_try = num_try +1
     try:
