@@ -94,3 +94,6 @@ def make_clust(net, dist_type='cosine', run_clustering=True, dendro=True,
   if 'enrichrgram_lib' in net.dat:
     net.viz['enrichrgram'] = True
     net.viz['enrichrgram_lib'] = net.dat['enrichrgram_lib']
+
+  if 'row_cat_bars' in net.dat:
+    net.viz['row_cat_bars'] = net.dat['row_cat_bars']

@@ -1,8 +1,6 @@
 def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
   from copy import deepcopy
 
-  # print('add enrichr categories to genes')
-
   tmp_gene_list = deepcopy(df.index.tolist())
 
   gene_list = []
@@ -18,11 +16,7 @@ def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
 
   user_list_id = post_request(gene_list)
 
-  # print(user_list_id)
-
   enr, response_list = get_request(run_enrichr, user_list_id, max_terms=20)
-
-  # print((type(response_list)))
 
   # p-value, adjusted pvalue, z-score, combined score, genes
   # 1: Term
@@ -32,6 +26,7 @@ def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
   # 5: Genes
   # 6: pval_bh
 
+  bar_info = []
   cat_list = []
   for inst_gene in gene_list:
     cat_list.append([inst_gene])
@@ -39,26 +34,27 @@ def add_enrichr_cats(df, inst_rc, run_enrichr, num_terms=10):
   for inst_enr in response_list[0:num_terms]:
     inst_term = inst_enr[1]
     inst_pval = inst_enr[2]
+    inst_cs = inst_enr[4]
     inst_list = inst_enr[5]
 
     pval_string = '<p> Pval ' + str(inst_pval) + '</p>'
+
+    bar_info.append(inst_cs)
 
     for inst_info in cat_list:
 
       gene_name = inst_info[0].split(': ')[-1]
 
       if gene_name in inst_list:
-        # inst_info.append(inst_term+': '+inst_term)
         inst_info.append(inst_term+': True'+ pval_string)
       else:
-        # inst_info.append(inst_term+': Not '+inst_term)
         inst_info.append(inst_term+': False'+pval_string)
 
   cat_list = [tuple(x) for x in cat_list]
 
   df.index = cat_list
 
-  return df
+  return df, bar_info
 
 def clust_from_response(response_list):
   from clustergrammer import Network

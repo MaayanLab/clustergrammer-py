@@ -393,10 +393,13 @@ class Network(object):
 
   def enrichrgram(self, lib, axis='row'):
     df = self.export_df()
-    df = enr_fun.add_enrichr_cats(df, axis, lib)
+    df, bar_info = enr_fun.add_enrichr_cats(df, axis, lib)
+    print('bar_info')
+    print(bar_info)
     self.load_df(df)
 
     self.dat['enrichrgram_lib'] = lib
+    self.dat['row_cat_bars'] = bar_info
 
   @staticmethod
   def load_gmt(filename):
