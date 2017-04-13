@@ -392,6 +392,32 @@ class Network(object):
     return link
 
   def enrichrgram(self, lib, axis='row'):
+    '''
+    Add Enrichr gene enrichment results to your visualization (where your rows
+    are genes). Run enrichrgram before clustering to incldue enrichment results
+    as row categories. Enrichrgram can also be run on the front-end using the
+    Enrichr logo at the top left.
+
+    Set lib to the Enrichr library that you want to use for enrichment analysis.
+    Libraries included:
+
+      * ChEA_2016
+      * KEA_2015
+      * ENCODE_TF_ChIP-seq_2015
+      * ENCODE_Histone_Modifications_2015
+      * Disease_Perturbations_from_GEO_up
+      * Disease_Perturbations_from_GEO_down
+      * GO_Molecular_Function_2015
+      * GO_Biological_Process_2015
+      * GO_Cellular_Component_2015
+      * Reactome_2016
+      * KEGG_2016
+      * MGI_Mammalian_Phenotype_Level_4
+      * LINCS_L1000_Chem_Pert_up
+      * LINCS_L1000_Chem_Pert_down
+
+    '''
+
     df = self.export_df()
     df, bar_info = enr_fun.add_enrichr_cats(df, axis, lib)
     self.load_df(df)
