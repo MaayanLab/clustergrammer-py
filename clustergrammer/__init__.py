@@ -320,12 +320,12 @@ class Network(object):
     '''
     normalize_fun.run_norm(self, df, norm_type, axis, keep_orig)
 
-  def downsample(self, df=None, ds_type='kmeans', axis='row', num_samples=100):
+  def downsample(self, df=None, ds_type='kmeans', axis='row', num_samples=100, random_state=1000):
     '''
     Downsample the matrix rows or columns (currently supporting kmeans only). Users can optionally pass in a DataFrame to be downsampled (and this will be incorporated into the network object).
     '''
 
-    return downsample_fun.main(self, df, ds_type, axis, num_samples)
+    return downsample_fun.main(self, df, ds_type, axis, num_samples, random_state)
 
   def random_sample(self, num_samples, df=None, replace=False, weights=None, random_state=100, axis='row'):
     '''
