@@ -52,6 +52,8 @@ def calc_distance_matrix(tmp_mat, inst_rc, dist_type='cosine'):
   from scipy.spatial.distance import pdist
   import numpy as np
 
+  if dist_type in ['precaclulated', 'precalc']:
+    return tmp_mat
   if inst_rc == 'row':
     inst_dm = pdist(tmp_mat, metric=dist_type)
   elif inst_rc == 'col':
