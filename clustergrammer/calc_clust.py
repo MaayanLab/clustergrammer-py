@@ -49,9 +49,17 @@ def cluster_row_and_col(net, dist_type='cosine', linkage_type='average',
   return dm
 
 def calc_distance_matrix(tmp_mat, inst_rc, dist_type='cosine'):
-  from scipy.spatial.distance import pdist
+  from scipy.spatial.distance import pdist, is_valid_y, is_valid_dm, squareform
   import numpy as np
 
+  if dist_type in ['precalculated', 'precalc']:
+    # convert distance matrix to condensed form if it is not already
+    # is_valid_y checks if it is already a condensed distance matrix
+    # is_valid_dm checks if it is a valid distance matrix, symmetric with a zero-diagonal
+    if (not is_valid_y(tmp_mat)) and (is_valid_dm(tmp_mat, throw=True)):
+      # convert to condensed distance matrix
+      tmp_mat = squareform(tmp_mat)
+    return tmp_mat
   if inst_rc == 'row':
     inst_dm = pdist(tmp_mat, metric=dist_type)
   elif inst_rc == 'col':
